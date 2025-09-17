@@ -10,6 +10,9 @@
 #include <vector>
 #include <algorithm>
 
+// Forward declarations
+DWORD GetProcessIdByName(const std::wstring& processName);
+
 // String obfuscation helper
 std::wstring DecryptString(const std::vector<int>& encrypted) {
     std::wstring result;

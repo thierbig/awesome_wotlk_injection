@@ -10,11 +10,15 @@
 #include <Windows.h>
 #include <Detours/detours.h>
 #include <Psapi.h>
+#include <TlHelp32.h>
 #include "VoiceChat.h"
 #include <thread>
 #include <chrono>
 #include <random>
 #include <vector>
+
+// Forward declarations
+static void OnRealAttach();
 
 static int lua_debugbreak(lua_State* L)
 {
