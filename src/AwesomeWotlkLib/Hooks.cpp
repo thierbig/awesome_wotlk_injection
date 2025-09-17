@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <atomic>
 
 namespace VoiceChat {
     void shutdown();  // Forward-Declaration
@@ -17,6 +18,9 @@ static std::unordered_map<void*, uint32_t> g_models_grace_timers;
 
 static uint32_t g_models_cleanup_timer = 0;
 static float g_actual_distance = 1.0f;
+
+// World-state flag to help modules gate logic for stability
+static std::atomic<bool> g_inWorld{ false };
 
 static Console::CVar* s_cvar_cameraIndirectVisibility;
 static Console::CVar* s_cvar_cameraIndirectAlpha;
@@ -236,6 +240,7 @@ static int FrameScript_FireOnUpdate_hk(int a1, int a2, int a3, int a4)
 static void(__fastcall* CGGameUI__EnterWorld)() = (decltype(CGGameUI__EnterWorld))0x00528010;
 static void __fastcall OnEnterWorld()
 {
+    g_inWorld.store(true, std::memory_order_relaxed);
     for (auto func : s_customOnEnter)
         func();
     return CGGameUI__EnterWorld();
@@ -244,9 +249,15 @@ static void __fastcall OnEnterWorld()
 static void(__fastcall* CGGameUI__LeaveWorld)() = (decltype(CGGameUI__LeaveWorld))0x00528C30;
 static void __fastcall OnLeaveWorld()
 {
+    g_inWorld.store(false, std::memory_order_relaxed);
     for (auto func : s_customOnLeave)
         func();
     return CGGameUI__LeaveWorld();
+}
+
+bool Hooks::IsInWorld()
+{
+    return g_inWorld.load(std::memory_order_relaxed);
 }
 
 static std::vector<Hooks::DummyCallback_t> s_glueXmlPostLoad;

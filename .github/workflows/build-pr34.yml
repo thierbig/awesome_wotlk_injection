@@ -12,7 +12,7 @@ jobs:
     - name: Checkout Thierbig's PR branch
       uses: actions/checkout@v4
       with:
-        repository: thierbig/awesome_wotlk
+        repository: thierbig/awesome_wotlk_injection
         ref: main
         submodules: recursive
         

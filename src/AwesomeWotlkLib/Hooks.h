@@ -31,6 +31,7 @@ void registerPostLoad(DummyCallback_t func);
 void registerCharEnum(DummyCallback_t func);
 }
 
+bool IsInWorld();
 void initialize();
 
 }
