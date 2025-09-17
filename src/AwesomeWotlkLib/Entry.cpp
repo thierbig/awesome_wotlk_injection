@@ -9,7 +9,6 @@
 #include "UnitAPI.h"
 #include <Windows.h>
 #include <Detours/detours.h>
-#include <Psapi.h>
 #include <TlHelp32.h>
 #include "VoiceChat.h"
 #include <thread>
@@ -41,7 +40,6 @@ static int lua_openawesomewotlk(lua_State* L)
 // Hook common anti-cheat detection APIs to hide our presence
 static HMODULE (WINAPI* OriginalGetModuleHandleA)(LPCSTR lpModuleName) = GetModuleHandleA;
 static HMODULE (WINAPI* OriginalGetModuleHandleW)(LPCWSTR lpModuleName) = GetModuleHandleW;
-static BOOL (WINAPI* OriginalEnumProcessModules)(HANDLE hProcess, HMODULE* lphModule, DWORD cb, LPDWORD lpcbNeeded) = EnumProcessModules;
 
 // Our DLL name for hiding
 static const char* OUR_DLL_NAME = "AwesomeWotlkLib.dll";
@@ -65,41 +63,9 @@ HMODULE WINAPI HookedGetModuleHandleW(LPCWSTR lpModuleName) {
     return OriginalGetModuleHandleW(lpModuleName);
 }
 
-BOOL WINAPI HookedEnumProcessModules(HANDLE hProcess, HMODULE* lphModule, DWORD cb, LPDWORD lpcbNeeded) {
-    BOOL result = OriginalEnumProcessModules(hProcess, lphModule, cb, lpcbNeeded);
-    
-    if (result && lphModule && lpcbNeeded) {
-        DWORD moduleCount = *lpcbNeeded / sizeof(HMODULE);
-        
-        // Remove our module from the enumeration
-        for (DWORD i = 0; i < moduleCount; i++) {
-            if (lphModule[i] == g_ourModule) {
-                // Shift remaining modules down
-                for (DWORD j = i; j < moduleCount - 1; j++) {
-                    lphModule[j] = lphModule[j + 1];
-                }
-                *lpcbNeeded -= sizeof(HMODULE);
-                break;
-            }
-        }
-    }
-    
-    return result;
-}
-
 // Additional stealth APIs
-static BOOL (WINAPI* OriginalGetModuleInformation)(HANDLE hProcess, HMODULE hModule, LPMODULEINFO lpmodinfo, DWORD cb) = GetModuleInformation;
 static DWORD (WINAPI* OriginalGetModuleFileNameA)(HMODULE hModule, LPSTR lpFilename, DWORD nSize) = GetModuleFileNameA;
 static DWORD (WINAPI* OriginalGetModuleFileNameW)(HMODULE hModule, LPWSTR lpFilename, DWORD nSize) = GetModuleFileNameW;
-
-// Hook GetModuleInformation to hide our module info
-BOOL WINAPI HookedGetModuleInformation(HANDLE hProcess, HMODULE hModule, LPMODULEINFO lpmodinfo, DWORD cb) {
-    if (hModule == g_ourModule) {
-        SetLastError(ERROR_INVALID_HANDLE);
-        return FALSE; // Hide our module information
-    }
-    return OriginalGetModuleInformation(hProcess, hModule, lpmodinfo, cb);
-}
 
 // Hook GetModuleFileName to hide our DLL path
 DWORD WINAPI HookedGetModuleFileNameA(HMODULE hModule, LPSTR lpFilename, DWORD nSize) {
@@ -142,8 +108,7 @@ static void InstallAntiCheatEvasion() {
     // Hook module enumeration APIs to hide our presence
     DetourAttach(&(PVOID&)OriginalGetModuleHandleA, HookedGetModuleHandleA);
     DetourAttach(&(PVOID&)OriginalGetModuleHandleW, HookedGetModuleHandleW);
-    DetourAttach(&(PVOID&)OriginalEnumProcessModules, HookedEnumProcessModules);
-    DetourAttach(&(PVOID&)OriginalGetModuleInformation, HookedGetModuleInformation);
+    // Psapi hooks removed
     DetourAttach(&(PVOID&)OriginalGetModuleFileNameA, HookedGetModuleFileNameA);
     DetourAttach(&(PVOID&)OriginalGetModuleFileNameW, HookedGetModuleFileNameW);
     

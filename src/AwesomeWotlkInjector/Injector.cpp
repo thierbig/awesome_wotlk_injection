@@ -1,7 +1,6 @@
 #include <iostream>
 #include <Windows.h>
 #include <TlHelp32.h>
-#include <Psapi.h>
 #include <string>
 #include <filesystem>
 #include <thread>
@@ -9,6 +8,7 @@
 #include <random>
 #include <vector>
 #include <algorithm>
+#include <cwctype>
 
 // Forward declarations
 DWORD GetProcessIdByName(const std::wstring& processName);
@@ -29,7 +29,9 @@ static const std::vector<int> ENCRYPTED_DLL_NAME = {0x0b, 0x77, 0x65, 0x73, 0x6f
 
 // Anti-debugging checks
 bool IsDebuggerAttached() {
-    return IsDebuggerPresent() || CheckRemoteDebuggerPresent(GetCurrentProcess(), nullptr);
+    BOOL remote = FALSE;
+    CheckRemoteDebuggerPresent(GetCurrentProcess(), &remote);
+    return IsDebuggerPresent() || (remote == TRUE);
 }
 
 // Check for common analysis tools
@@ -49,22 +51,28 @@ bool IsAnalysisToolRunning() {
 
 // Check if ClientExtensions.dll is loaded (potential anti-cheat)
 bool IsClientExtensionsLoaded(HANDLE hProcess) {
-    HMODULE hMods[1024];
-    DWORD cbNeeded;
-    
-    if (EnumProcessModules(hProcess, hMods, sizeof(hMods), &cbNeeded)) {
-        for (unsigned int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++) {
-            wchar_t szModName[MAX_PATH];
-            if (GetModuleFileNameExW(hProcess, hMods[i], szModName, sizeof(szModName) / sizeof(wchar_t))) {
-                std::wstring modName = szModName;
-                std::transform(modName.begin(), modName.end(), modName.begin(), ::tolower);
-                if (modName.find(L"clientextensions.dll") != std::wstring::npos) {
-                    return true;
-                }
+    // Re-implemented without Psapi: use Toolhelp32 module snapshot
+    DWORD pid = GetProcessId(hProcess);
+    if (pid == 0) return false;
+
+    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, pid);
+    if (snapshot == INVALID_HANDLE_VALUE) return false;
+
+    MODULEENTRY32W me;
+    me.dwSize = sizeof(me);
+    bool found = false;
+    if (Module32FirstW(snapshot, &me)) {
+        do {
+            std::wstring modName = me.szModule;
+            std::transform(modName.begin(), modName.end(), modName.begin(), ::towlower);
+            if (modName.find(L"clientextensions.dll") != std::wstring::npos) {
+                found = true;
+                break;
             }
-        }
+        } while (Module32NextW(snapshot, &me));
     }
-    return false;
+    CloseHandle(snapshot);
+    return found;
 }
 
 // Check if character is in world by scanning memory
