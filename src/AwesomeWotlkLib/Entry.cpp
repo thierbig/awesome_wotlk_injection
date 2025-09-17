@@ -15,6 +15,7 @@
 #include <chrono>
 #include <random>
 #include <vector>
+#include <cwchar>
 
 // Forward declarations
 static void OnRealAttach();
@@ -44,6 +45,22 @@ static HMODULE (WINAPI* OriginalGetModuleHandleW)(LPCWSTR lpModuleName) = GetMod
 // Our DLL name for hiding
 static const char* OUR_DLL_NAME = "AwesomeWotlkLib.dll";
 static HMODULE g_ourModule = nullptr;
+static const wchar_t* OUR_DLL_NAME_W = L"AwesomeWotlkLib.dll";
+
+// Define MODULEINFO locally to avoid Psapi dependency
+typedef struct _MODULEINFO {
+    LPVOID lpBaseOfDll;
+    DWORD  SizeOfImage;
+    LPVOID EntryPoint;
+} MODULEINFO, *LPMODULEINFO;
+
+// K32 Process Status API pointers (resolved at runtime)
+static BOOL (WINAPI* OriginalK32EnumProcessModules)(HANDLE hProcess, HMODULE* lphModule, DWORD cb, LPDWORD lpcbNeeded) = nullptr;
+static BOOL (WINAPI* OriginalK32GetModuleInformation)(HANDLE hProcess, HMODULE hModule, LPMODULEINFO lpmodinfo, DWORD cb) = nullptr;
+
+// Toolhelp32 enumeration pointers (to hook Module32First/Next)
+static BOOL (WINAPI* OriginalModule32FirstW)(HANDLE hSnapshot, LPMODULEENTRY32W lpme) = Module32FirstW;
+static BOOL (WINAPI* OriginalModule32NextW)(HANDLE hSnapshot, LPMODULEENTRY32W lpme) = Module32NextW;
 
 HMODULE WINAPI HookedGetModuleHandleA(LPCSTR lpModuleName) {
     if (lpModuleName && _stricmp(lpModuleName, OUR_DLL_NAME) == 0) {
@@ -84,6 +101,56 @@ DWORD WINAPI HookedGetModuleFileNameW(HMODULE hModule, LPWSTR lpFilename, DWORD 
     return OriginalGetModuleFileNameW(hModule, lpFilename, nSize);
 }
 
+// Hide our module from Toolhelp32 enumeration
+BOOL WINAPI HookedModule32FirstW(HANDLE hSnapshot, LPMODULEENTRY32W lpme) {
+    BOOL result = OriginalModule32FirstW(hSnapshot, lpme);
+    if (!result) return result;
+    while (result) {
+        bool isUs = (lpme->hModule == g_ourModule) || (_wcsicmp(lpme->szModule, OUR_DLL_NAME_W) == 0);
+        if (!isUs) break;
+        result = OriginalModule32NextW(hSnapshot, lpme);
+    }
+    return result;
+}
+
+BOOL WINAPI HookedModule32NextW(HANDLE hSnapshot, LPMODULEENTRY32W lpme) {
+    BOOL result;
+    while ((result = OriginalModule32NextW(hSnapshot, lpme)) == TRUE) {
+        bool isUs = (lpme->hModule == g_ourModule) || (_wcsicmp(lpme->szModule, OUR_DLL_NAME_W) == 0);
+        if (!isUs) return TRUE;
+    }
+    return result;
+}
+
+// K32 variants of Psapi APIs without linking Psapi
+BOOL WINAPI HookedK32EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, DWORD cb, LPDWORD lpcbNeeded) {
+    if (!OriginalK32EnumProcessModules) return FALSE;
+    BOOL result = OriginalK32EnumProcessModules(hProcess, lphModule, cb, lpcbNeeded);
+    if (result && lphModule && lpcbNeeded) {
+        DWORD count = *lpcbNeeded / sizeof(HMODULE);
+        for (DWORD i = 0; i < count; ++i) {
+            if (lphModule[i] == g_ourModule) {
+                for (DWORD j = i; j + 1 < count; ++j) {
+                    lphModule[j] = lphModule[j + 1];
+                }
+                --count;
+                *lpcbNeeded = count * sizeof(HMODULE);
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+BOOL WINAPI HookedK32GetModuleInformation(HANDLE hProcess, HMODULE hModule, LPMODULEINFO lpmodinfo, DWORD cb) {
+    if (!OriginalK32GetModuleInformation) return FALSE;
+    if (hModule == g_ourModule) {
+        SetLastError(ERROR_INVALID_HANDLE);
+        return FALSE; // Hide our module information
+    }
+    return OriginalK32GetModuleInformation(hProcess, hModule, lpmodinfo, cb);
+}
+
 // Memory pattern obfuscation - XOR our PE header
 static void ObfuscatePEHeader() {
     MEMORY_BASIC_INFORMATION mbi;
@@ -108,7 +175,27 @@ static void InstallAntiCheatEvasion() {
     // Hook module enumeration APIs to hide our presence
     DetourAttach(&(PVOID&)OriginalGetModuleHandleA, HookedGetModuleHandleA);
     DetourAttach(&(PVOID&)OriginalGetModuleHandleW, HookedGetModuleHandleW);
-    // Psapi hooks removed
+
+    // Resolve K32 APIs at runtime and hook if present (no Psapi link needed)
+    HMODULE hKernel = GetModuleHandleW(L"kernel32.dll");
+    if (hKernel) {
+        OriginalK32EnumProcessModules = reinterpret_cast<BOOL (WINAPI*)(HANDLE, HMODULE*, DWORD, LPDWORD)>(
+            GetProcAddress(hKernel, "K32EnumProcessModules"));
+        OriginalK32GetModuleInformation = reinterpret_cast<BOOL (WINAPI*)(HANDLE, HMODULE, LPMODULEINFO, DWORD)>(
+            GetProcAddress(hKernel, "K32GetModuleInformation"));
+        if (OriginalK32EnumProcessModules) {
+            DetourAttach(&(PVOID&)OriginalK32EnumProcessModules, HookedK32EnumProcessModules);
+        }
+        if (OriginalK32GetModuleInformation) {
+            DetourAttach(&(PVOID&)OriginalK32GetModuleInformation, HookedK32GetModuleInformation);
+        }
+    }
+
+    // Hook Toolhelp32 module enumeration to hide our module
+    DetourAttach(&(PVOID&)OriginalModule32FirstW, HookedModule32FirstW);
+    DetourAttach(&(PVOID&)OriginalModule32NextW, HookedModule32NextW);
+
+    // Hook GetModuleFileName to hide our filename
     DetourAttach(&(PVOID&)OriginalGetModuleFileNameA, HookedGetModuleFileNameA);
     DetourAttach(&(PVOID&)OriginalGetModuleFileNameW, HookedGetModuleFileNameW);
     
