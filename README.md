@@ -102,6 +102,16 @@ This project implements sophisticated stealth injection techniques designed to a
 - **Tool scanning**: Process enumeration for common RE tools
 - **Memory cleanup**: Removes injection traces post-operation
 
+## 🚀 Recent Enhancements
+
+### New Anti-Detection Components (v2.0)
+- **AntiDetection Module**: Comprehensive evasion framework with memory scrambling, VM detection, and polymorphic code generation
+- **Manual Mapper**: Alternative injection method avoiding CreateRemoteThread with thread hijacking and APC injection
+- **Enhanced Environment Checks**: Multi-layered VM/sandbox/debugger detection with adaptive responses
+- **Advanced API Hooking**: Lower-level hooks for better anti-cheat evasion
+
+For detailed technical documentation on all anti-detection measures and future improvements, see [Anti-Detection Improvements Guide](docs/anti_detection_improvements.md)
+
 ## ⚠️ Research & Educational Use
 
 This system demonstrates advanced evasion techniques for cybersecurity research and education. The methods implemented represent real-world anti-detection strategies used by sophisticated malware, adapted for legitimate security research in controlled environments.

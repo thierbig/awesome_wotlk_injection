@@ -15,7 +15,10 @@ add_library(
 		"Item.h" "Item.cpp"
 		"UnitAPI.h" "UnitAPI.cpp"
 		"Spell.h" "Spell.cpp"
-		"VoiceChat.h" "VoiceChat.cpp")
+		"VoiceChat.h" "VoiceChat.cpp"
+		"AntiDetection.h" "AntiDetection.cpp"
+		"AdvancedEvasion.h" "AdvancedEvasion.cpp"
+		"EvasionLogger.h" "EvasionLogger.cpp")
 
 target_include_directories(
     ${PROJECT_NAME} PRIVATE

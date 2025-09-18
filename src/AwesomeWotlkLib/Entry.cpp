@@ -11,6 +11,9 @@
 #include <Detours/detours.h>
 #include <TlHelp32.h>
 #include "VoiceChat.h"
+#include "AntiDetection.h"
+#include "AdvancedEvasion.h"
+#include "EvasionLogger.h"
 #include <thread>
 #include <chrono>
 #include <random>
@@ -207,9 +210,23 @@ static void InstallAntiCheatEvasion() {
 
 // Anti-debugging and stealth measures
 static bool IsEnvironmentSafe() {
-    // Check for debugger
+    // Enhanced anti-debugging checks using AntiDetection module
     if (IsDebuggerPresent()) {
         return false;
+    }
+    
+    // Check for VM/Sandbox
+    if (AntiDetection::EnvironmentChecker::IsRunningInVM() ||
+        AntiDetection::EnvironmentChecker::IsRunningInSandbox()) {
+        // In VM or sandbox - be extra careful
+        AntiDetection::MemoryScrambler::ScrambleUnusedMemory();
+        AntiDetection::MemoryScrambler::RandomizeStackPatterns();
+    }
+    
+    // Check hardware
+    if (AntiDetection::EnvironmentChecker::HasSuspiciousHardware()) {
+        // Suspicious hardware detected
+        AntiDetection::TimingObfuscator::AddRandomDelays();
     }
     
     // Check if ClientExtensions.dll is loaded (anti-cheat system)
@@ -217,6 +234,10 @@ static bool IsEnvironmentSafe() {
     if (clientExt != nullptr) {
         // Install enhanced anti-cheat evasion hooks
         InstallAntiCheatEvasion();
+        
+        // Additional evasion for anti-cheat
+        AntiDetection::MemoryScrambler::EraseInjectionTraces();
+        AntiDetection::CodeMutator::InsertDeadCode();
     }
     
     // Check for common analysis tools in memory
@@ -225,7 +246,9 @@ static bool IsEnvironmentSafe() {
         GetModuleHandleA("ntdll.dll")
     };
     
-    // Basic heuristic checks (expand as needed)
+    // Scramble memory patterns
+    AntiDetection::MemoryScrambler::ScrambleUnusedMemory();
+    
     return true;
 }
 
@@ -288,6 +311,12 @@ static void OnRealAttach()
     if (!IsEnvironmentSafe()) {
         return;
     }
+    
+    // Initialize advanced evasion techniques
+    AdvancedEvasion::EvasionManager::InitializeAll();
+    
+    // Apply adaptive evasion based on detected environment
+    AdvancedEvasion::EvasionManager::ApplyAdaptiveEvasion();
 
     *(DWORD*)0x00B6AF54 = 1; // TOSAccepted = 1
     *(DWORD*)0x00B6AF5C = 1; // EULAAccepted = 1
@@ -309,6 +338,9 @@ static void OnRealAttach()
 
     // Register base
     Hooks::FrameXML::registerLuaLib(lua_openawesomewotlk);
+    
+    // Final evasion check after initialization
+    AdvancedEvasion::EvasionManager::ApplyAdaptiveEvasion();
 }
 
 static void OnAttach()
@@ -348,6 +380,11 @@ int __stdcall DllMain(HMODULE hModule, DWORD reason, LPVOID)
         // Delayed initialization thread
         HANDLE h2 = CreateThread(nullptr, 0, DelayedInitThread, nullptr, 0, nullptr);
         if (h2) CloseHandle(h2);
+    }
+    else if (reason == DLL_PROCESS_DETACH) {
+        // Cleanup advanced evasion and show final status
+        AdvancedEvasion::EvasionManager::Cleanup();
+        EvasionLogger::Logger::Cleanup();
     }
     return 1;
 }

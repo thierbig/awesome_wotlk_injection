@@ -9,6 +9,7 @@
 #include <vector>
 #include <algorithm>
 #include <cwctype>
+#include "ManualMapper.h"
 
 // Forward declarations
 DWORD GetProcessIdByName(const std::wstring& processName);
@@ -239,57 +240,76 @@ int wmain(int argc, wchar_t* argv[]) {
     // Add brief delay before injection
     std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // 1 second delay
 
-    // 4. Get a handle to the process with injection rights
-    DWORD access = PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ;
-    HANDLE hProcess = OpenProcess(access, FALSE, procId);
-    if (hProcess == NULL) {
-        std::cerr << "Error: Could not open a handle to the process. Try running as administrator." << std::endl;
-        system("pause");
-        return 1;
-    }
-
-    // 5. Allocate memory in the target process for the DLL path
-    std::wstring dllPathW = dllPath.wstring();
-    SIZE_T bytes = (dllPathW.size() + 1) * sizeof(wchar_t); // include null terminator
-    void* loc = VirtualAllocEx(hProcess, nullptr, bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-    if (loc == NULL) {
-        std::cerr << "Error: Could not allocate memory in the target process." << std::endl;
-        CloseHandle(hProcess);
-        system("pause");
-        return 1;
-    }
-
-    // 6. Write the DLL path to the allocated memory
-    if (!WriteProcessMemory(hProcess, loc, dllPathW.c_str(), bytes, nullptr)) {
-        std::cerr << "Error: Could not write to the process's memory." << std::endl;
-        VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
-        CloseHandle(hProcess);
-        system("pause");
-        return 1;
-    }
-
-    // 7. Create a remote thread to load the DLL
-    HANDLE hThread = CreateRemoteThread(hProcess, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryW, loc, 0, 0);
-    if (hThread == NULL) {
-        std::cerr << "Error: Could not create a remote thread." << std::endl;
-        VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
-        CloseHandle(hProcess);
-        system("pause");
-        return 1;
-    }
-
-    // Wait for remote thread to complete and free remote buffer
-    WaitForSingleObject(hThread, INFINITE);
-    VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
+    // Try advanced injection methods first for better stealth
+    bool injectionSuccessful = false;
     
-    // Additional stealth: Clear injection traces
-    FlushInstructionCache(hProcess, nullptr, 0);
-    
-    std::wcout << L"Injection completed successfully!" << std::endl;
+    // Method 1: Manual Mapping (Most stealthy)
+    std::wcout << L"Attempting manual mapping injection..." << std::endl;
+    if (ManualMapper::InjectDLL(procId, dllPath.wstring())) {
+        std::wcout << L"Manual mapping injection completed successfully!" << std::endl;
+        injectionSuccessful = true;
+    } else {
+        std::wcout << L"Manual mapping failed, falling back to traditional injection..." << std::endl;
+        
+        // Method 2: Traditional CreateRemoteThread (fallback)
+        DWORD access = PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ;
+        HANDLE hProcess = OpenProcess(access, FALSE, procId);
+        if (hProcess == NULL) {
+            std::cerr << "Error: Could not open a handle to the process. Try running as administrator." << std::endl;
+            system("pause");
+            return 1;
+        }
 
-    // Clean up
-    CloseHandle(hThread);
-    CloseHandle(hProcess);
+        // Allocate memory in the target process for the DLL path
+        std::wstring dllPathW = dllPath.wstring();
+        SIZE_T bytes = (dllPathW.size() + 1) * sizeof(wchar_t); // include null terminator
+        void* loc = VirtualAllocEx(hProcess, nullptr, bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+        if (loc == NULL) {
+            std::cerr << "Error: Could not allocate memory in the target process." << std::endl;
+            CloseHandle(hProcess);
+            system("pause");
+            return 1;
+        }
+
+        // Write the DLL path to the allocated memory
+        if (!WriteProcessMemory(hProcess, loc, dllPathW.c_str(), bytes, nullptr)) {
+            std::cerr << "Error: Could not write to the process's memory." << std::endl;
+            VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
+            CloseHandle(hProcess);
+            system("pause");
+            return 1;
+        }
+
+        // Create a remote thread to load the DLL
+        HANDLE hThread = CreateRemoteThread(hProcess, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryW, loc, 0, 0);
+        if (hThread == NULL) {
+            std::cerr << "Error: Could not create a remote thread." << std::endl;
+            VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
+            CloseHandle(hProcess);
+            system("pause");
+            return 1;
+        }
+
+        // Wait for remote thread to complete and free remote buffer
+        WaitForSingleObject(hThread, INFINITE);
+        VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
+        
+        // Additional stealth: Clear injection traces
+        FlushInstructionCache(hProcess, nullptr, 0);
+        
+        std::wcout << L"Traditional injection completed successfully!" << std::endl;
+        injectionSuccessful = true;
+
+        // Clean up
+        CloseHandle(hThread);
+        CloseHandle(hProcess);
+    }
+    
+    if (!injectionSuccessful) {
+        std::wcerr << L"All injection methods failed!" << std::endl;
+        system("pause");
+        return 1;
+    }
 
     system("pause");
     return 0;
