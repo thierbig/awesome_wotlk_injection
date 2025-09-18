@@ -2,6 +2,13 @@
 title Awesome WotLK Injector - Continuous Monitor
 color 0B
 
+:: Setup cleanup on exit (Ctrl+C or window close)
+set "CLEANUP_NEEDED=1"
+if not defined CLEANUP_HANDLER (
+    set "CLEANUP_HANDLER=1"
+    call :setup_cleanup
+)
+
 echo:
 echo ================================================
 echo    AWESOME WOTLK INJECTOR - CONTINUOUS MONITOR
@@ -126,10 +133,36 @@ timeout /t 30 /nobreak
 goto :monitor_loop
 
 :end
+call :cleanup_processes
 echo [INFO] Monitor stopped
 pause
 
 :end_with_pause
+call :cleanup_processes
 echo [INFO] Monitor stopped - window will stay open
 echo [INFO] Press any key to close this window...
 pause >nul
+exit /b
+
+:setup_cleanup
+:: This creates a cleanup temp file that gets called on exit
+echo @echo off > "%TEMP%\awesome_cleanup.bat"
+echo tasklist /FI "IMAGENAME eq AwesomeWotlkInjector.exe" 2^>NUL ^| find /I /N "AwesomeWotlkInjector.exe"^>NUL >> "%TEMP%\awesome_cleanup.bat"
+echo if "%%ERRORLEVEL%%"=="0" ( >> "%TEMP%\awesome_cleanup.bat"
+echo     echo [CLEANUP] Stopping AwesomeWotlkInjector.exe... >> "%TEMP%\awesome_cleanup.bat"
+echo     taskkill /F /IM "AwesomeWotlkInjector.exe" 2^>NUL >> "%TEMP%\awesome_cleanup.bat"
+echo ) >> "%TEMP%\awesome_cleanup.bat"
+echo del "%%~f0" 2^>NUL >> "%TEMP%\awesome_cleanup.bat"
+goto :eof
+
+:cleanup_processes
+echo [CLEANUP] Checking for running AwesomeWotlkInjector.exe processes...
+tasklist /FI "IMAGENAME eq AwesomeWotlkInjector.exe" 2>NUL | find /I /N "AwesomeWotlkInjector.exe">NUL
+if "%ERRORLEVEL%"=="0" (
+    echo [CLEANUP] Stopping AwesomeWotlkInjector.exe...
+    taskkill /F /IM "AwesomeWotlkInjector.exe" 2>NUL
+    echo [CLEANUP] Process stopped.
+) else (
+    echo [CLEANUP] No AwesomeWotlkInjector.exe processes found.
+)
+goto :eof

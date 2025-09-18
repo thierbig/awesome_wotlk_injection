@@ -314,8 +314,8 @@ static void OnRealAttach()
     // Apply adaptive evasion based on detected environment
     AdvancedEvasion::EvasionManager::ApplyAdaptiveEvasion();
 
-    *(DWORD*)0x00B6AF54 = 1; // TOSAccepted = 1
-    *(DWORD*)0x00B6AF5C = 1; // EULAAccepted = 1
+    // Removed fake TOS/EULA memory writes - they were causing crashes
+    // Real TOS/EULA handling should be done through proper game APIs if needed
 
     // Initialize modules
     DetourTransactionBegin();
