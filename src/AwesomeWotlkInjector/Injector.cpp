@@ -76,55 +76,14 @@ bool IsClientExtensionsLoaded(HANDLE hProcess) {
     return found;
 }
 
-// Check if character is in world by scanning memory
-bool IsCharacterInWorld(HANDLE hProcess) {
-    // Check if ClientExtensions.dll is loaded (anti-cheat component)
-    if (IsClientExtensionsLoaded(hProcess)) {
-        std::wcout << L"ClientExtensions.dll detected - anti-cheat present. Using stealth mode." << std::endl;
-        // Continue with injection but flag for enhanced stealth measures
+// Perform basic anti-debugging checks
+void PerformSecurityChecks() {
+    if (IsDebuggerPresent() || CheckRemoteDebuggerPresent(GetCurrentProcess(), nullptr)) {
+        // Debugger detected - continue with enhanced stealth measures
+        std::wcout << L"[INFO] Debugger detected - enhanced stealth mode enabled" << std::endl;
     }
-    
-    // Scan for world state indicator at known addresses
-    const std::vector<uintptr_t> worldStateAddresses = {
-        0x00B4A000,  // Common world state locations in WotLK client
-        0x00C5D000,
-        0x00D3F000
-    };
-    
-    for (uintptr_t addr : worldStateAddresses) {
-        DWORD worldState = 0;
-        SIZE_T bytesRead = 0;
-        if (ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(addr), &worldState, sizeof(DWORD), &bytesRead)) {
-            // Check for typical "in world" indicators
-            if (worldState == 1 || (worldState & 0x1) != 0) {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
-// Wait for character to enter world with timeout
-bool WaitForWorldEntry(HANDLE hProcess, int timeoutSeconds = 300) {
-    auto startTime = std::chrono::steady_clock::now();
-    auto timeout = std::chrono::seconds(timeoutSeconds);
-    
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(1000, 3000); // 1-3 second intervals
-    
-    while (std::chrono::steady_clock::now() - startTime < timeout) {
-        if (IsCharacterInWorld(hProcess)) {
-            // Add random delay after world entry detection
-            std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
-            return true;
-        }
-        
-        // Random sleep interval to avoid predictable scanning patterns
-        std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
-    }
-    return false;
-}
 
 // Function to get the Process ID by process name
 DWORD GetProcessIdByName(const std::wstring& processName) {
@@ -216,29 +175,22 @@ int wmain(int argc, wchar_t* argv[]) {
     }
 
     std::wcout << L"Target process '" << foundProcessName << L"' found. PID: " << procId << std::endl;
-    std::wcout << L"Waiting for character to enter world..." << std::endl;
-
-    // 3. Get a handle to the process with minimal rights for world state checking
-    HANDLE hTempProcess = OpenProcess(PROCESS_VM_READ | PROCESS_QUERY_INFORMATION, FALSE, procId);
-    if (hTempProcess == NULL) {
-        std::cerr << "Error: Could not open process for world state checking." << std::endl;
-        system("pause");
-        return 1;
-    }
     
-    // Wait for character to be in world before proceeding
-    if (!WaitForWorldEntry(hTempProcess, 300)) {
-        std::wcerr << L"Timeout: Character did not enter world within 5 minutes." << std::endl;
+    // Perform security checks  
+    PerformSecurityChecks();
+    
+    // Check if ClientExtensions.dll is loaded (anti-cheat component)
+    HANDLE hTempProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, procId);
+    if (hTempProcess) {
+        if (IsClientExtensionsLoaded(hTempProcess)) {
+            std::wcout << L"[INFO] ClientExtensions.dll detected - anti-cheat present. Enhanced stealth mode enabled." << std::endl;
+        }
         CloseHandle(hTempProcess);
-        system("pause");
-        return 1;
     }
     
-    CloseHandle(hTempProcess);
-    std::wcout << L"Character in world detected. Proceeding with injection..." << std::endl;
-    
-    // Add brief delay before injection
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // 1 second delay
+    std::wcout << L"Ready to inject. Make sure you're in the game world before proceeding." << std::endl;
+    std::wcout << L"Press any key when ready..." << std::endl;
+    system("pause");
 
     // Try advanced injection methods first for better stealth
     bool injectionSuccessful = false;

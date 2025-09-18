@@ -4,17 +4,17 @@ This project implements sophisticated stealth injection techniques designed to a
 
 ## 🔒 Core Anti-Detection Features
 
-### **1. Multi-Target World-State Aware Injection**
+### **1. Multi-Target Manual Injection**
 - **Dual process support**: Automatically detects and injects into either `Project Epoch.exe` or `ascension.exe`
-- **Pre-injection scanning**: Monitors target process memory for world-state indicators
-- **Smart timing**: Only injects after character has fully entered the game world
-- **Memory pattern analysis**: Scans multiple addresses (`0x00B4A000`, `0x00C5D000`, `0x00D3F000`) for in-world flags
-- **Timeout protection**: Aborts after 5 minutes if world entry is not detected
+- **Manual timing control**: User initiates injection when ready (no automatic world-state detection)
+- **Anti-cheat detection**: Scans for `ClientExtensions.dll` and enables enhanced stealth mode when detected
+- **User-controlled timing**: Prompts user to ensure they're in-game world before proceeding with injection
 
-### **2. Dynamic Timing Randomization**
-- **Variable polling intervals**: 1-3 second randomized delays between world state checks  
-- **Post-detection delay**: 1 second pause after world entry detection
-- **Non-predictable patterns**: Polling timing uses cryptographically secure random generation
+### **2. Advanced Injection Methods**
+- **Manual Mapping**: Primary injection method that avoids `CreateRemoteThread` detection
+- **Thread Hijacking**: Alternative execution method using existing process threads
+- **Traditional Fallback**: `CreateRemoteThread` + `LoadLibraryW` as backup method
+- **Method Selection**: Automatically tries most stealthy method first, falls back if needed
 
 ### **3. String Obfuscation & Static Analysis Evasion**
 - **XOR encryption**: Process names and DLL paths encrypted with key `0x42`
