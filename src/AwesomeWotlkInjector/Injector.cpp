@@ -117,7 +117,7 @@ int wmain(int argc, wchar_t* argv[]) {
         DecryptString(ENCRYPTED_PROCESS_NAME_1), // "Project Epoch.exe"
         DecryptString(ENCRYPTED_PROCESS_NAME_2)  // "ascension.exe"
     };
-    std::wstring dllName = DecryptString(ENCRYPTED_DLL_NAME);
+    std::wstring dllName = L"AwesomeWotlkLib.dll"; // Fixed: no more obfuscation issues
     std::wstring targetProcessName;
 
     // Check if user provided custom process name

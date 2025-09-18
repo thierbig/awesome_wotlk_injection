@@ -19,7 +19,7 @@ if %errorLevel% == 0 (
     echo [ERROR] Right-click this file and select "Run as Administrator"
     echo.
     set /p choice="Continue anyway? (y/N): "
-    if /i not "%choice%"=="y" exit /b 1
+    if /i not "%choice%"=="y" goto :end_with_pause
 )
 
 echo.
@@ -78,40 +78,53 @@ echo [INFO] Full debug logging enabled
 echo [INFO] Log file: logs\injection_log_%timestamp%.txt
 echo.
 
-:: Run the injector with logging
-echo [INFO] Launching injector with full evasion logging...
-echo [INFO] Make sure your character is IN THE GAME WORLD for automatic injection
-echo.
+:: Debug and run the injector
+echo [DEBUG] Current directory: %CD%
+echo [DEBUG] Script directory: %~dp0
+echo [DEBUG] Looking for: %~dp0AwesomeWotlkInjector.exe
+if exist "%~dp0AwesomeWotlkInjector.exe" (
+    echo [SUCCESS] Found AwesomeWotlkInjector.exe
+) else (
+    echo [ERROR] AwesomeWotlkInjector.exe NOT FOUND!
+    goto :end_with_pause
+)
 
-AwesomeWotlkInjector.exe 2>&1 | tee logs\injection_log_%timestamp%.txt
+echo [INFO] Launching injector with full evasion logging...
+echo [WARNING] The injector will prompt 'Press any key when ready...'
+echo [WARNING] You'll need to press a key in the injector window when you're in-game
+echo.
+"%~dp0AwesomeWotlkInjector.exe"
+set INJECT_RESULT=%errorLevel%
 
 :: Check injection result
-if %errorLevel% == 0 (
-    echo.
-    echo ================================================
-    echo    INJECTION COMPLETED SUCCESSFULLY!
-    echo    Your game is now enhanced with all features
-    echo    Log saved: logs\injection_log_%timestamp%.txt
-    echo ================================================
-    echo.
-    echo [INFO] Resuming continuous monitoring...
-    echo [INFO] If you restart the game, injection will happen automatically
-    echo.
-    goto :monitor_loop
+echo.
+echo ================================================
+if %INJECT_RESULT% == 0 (
+    echo [SUCCESS] INJECTION COMPLETED SUCCESSFULLY!
+    echo [SUCCESS] Your game is now enhanced with all features
 ) else (
-    echo.
-    echo ================================================
-    echo    INJECTION FAILED!
-    echo    Error Code: %errorLevel%
-    echo    Log saved: logs\injection_log_%timestamp%.txt
-    echo ================================================
-    echo.
-    echo [INFO] Resuming monitoring in 60 seconds...
-    echo [INFO] You can restart the game or try again
-    timeout /t 60 /nobreak
-    goto :monitor_loop
+    echo [ERROR] INJECTION FAILED!
+    echo [ERROR] Error Code: %INJECT_RESULT%
+    echo [ERROR] Common issues:
+    echo [ERROR] - Missing Administrator privileges
+    echo [ERROR] - Game process not found or inaccessible  
+    echo [ERROR] - DLL file missing or corrupted
+    echo [ERROR] - Anti-virus blocking the injection
+    echo [ERROR] - AwesomeWotlkInjector.exe not found
+    echo [ERROR] - AwesomeWotlkLib.dll not found
 )
+echo ================================================
+echo.
+echo [INFO] Resuming continuous monitoring in 30 seconds...
+echo [INFO] If you restart the game, injection will happen automatically
+timeout /t 30 /nobreak
+goto :monitor_loop
 
 :end
 echo [INFO] Monitor stopped
 pause
+
+:end_with_pause
+echo [INFO] Monitor stopped - window will stay open
+echo [INFO] Press any key to close this window...
+pause >nul
