@@ -278,26 +278,10 @@ static void DelayedInitialization() {
     // Store our thread ID for hiding
     g_ourThreadIds.push_back(GetCurrentThreadId());
     
-    // Wait until we're definitely in world
-    int attempts = 0;
-    const int maxAttempts = 60; // 5 minutes max wait
-    
-    while (attempts < maxAttempts) {
-        if (Hooks::IsInWorld()) {
-            break; // Proceed immediately once in world
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000)); // Check every5 seconds
-        attempts++;
-    }
-    
-    if (attempts >= maxAttempts) {
-        return; // Failed to detect world entry, abort initialization
-    }
-    
     // Install additional evasion measures
     InstallAdvancedEvasion();
     
-    // Proceed with actual module initialization immediately after world entry
+    // Since user presses key when ready and in-world, initialize immediately
     OnRealAttach();
 }
 
@@ -341,11 +325,10 @@ static void OnRealAttach()
 
 static void OnAttach()
 {
-    // Just set up basic hooks and world state monitoring
-    // Actual initialization happens later
+    // Set up basic hooks only - no world detection needed
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
-    Hooks::initialize(); // This sets up world state detection
+    Hooks::initialize(); // Basic hook setup
     DetourTransactionCommit();
 }
 
@@ -369,7 +352,7 @@ int __stdcall DllMain(HMODULE hModule, DWORD reason, LPVOID)
         // Store our module handle for hiding
         g_ourModule = hModule;
         
-        // Basic attachment for world state monitoring
+        // Basic attachment and hook setup
         HANDLE h1 = CreateThread(nullptr, 0, AttachThread, nullptr, 0, nullptr);
         if (h1) CloseHandle(h1);
         

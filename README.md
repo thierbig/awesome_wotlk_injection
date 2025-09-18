@@ -6,9 +6,10 @@ This project implements sophisticated stealth injection techniques designed to a
 
 ### **1. Multi-Target Manual Injection**
 - **Dual process support**: Automatically detects and injects into either `Project Epoch.exe` or `ascension.exe`
-- **Manual timing control**: User initiates injection when ready (no automatic world-state detection)
+- **Manual timing control**: User initiates injection when ready (simplified - no world detection complexity)
 - **Anti-cheat detection**: Scans for `ClientExtensions.dll` and enables enhanced stealth mode when detected
 - **User-controlled timing**: Prompts user to ensure they're in-game world before proceeding with injection
+- **Immediate initialization**: Clean, direct initialization path without detection overhead
 
 ### **2. Advanced Injection Methods**
 - **Manual Mapping**: Primary injection method that avoids `CreateRemoteThread` detection
@@ -50,14 +51,14 @@ This project implements sophisticated stealth injection techniques designed to a
 
 ### **5. Two-Stage DLL Initialization**
 - **Stage 1 (Immediate)**: Minimal setup on DLL load
-  - Only establishes world-state monitoring hooks
+  - Only establishes basic hooks and stealth measures
   - No suspicious immediate initialization behavior
-  - Sets up `Hooks::IsInWorld()` detection capability
+  - Prepares injection infrastructure
 
-- **Stage 2 (Delayed)**: Full activation after world entry
-  - Continuously polls world state until character is in-world
-  - Immediately initializes all modules and hooks once world detected
-  - Performs final environment safety checks
+- **Stage 2 (User-triggered)**: Full activation when user is ready
+  - Activates when user confirms they're in-world and ready
+  - Immediately initializes all modules and hooks
+  - Performs final environment safety checks and stealth activation
 
 ### **6. Memory Access & Trace Cleanup**
 - **Minimal privileges**: Uses only necessary process access rights for each phase
@@ -71,13 +72,11 @@ This project implements sophisticated stealth injection techniques designed to a
 1. Environment Check → Verify no debuggers/analysis tools
 2. String Decryption → Decrypt target process name  
 3. Process Location → Find target using encrypted strings
-4. Memory Scanning → Read world state from multiple addresses
-5. World State Wait → Poll until character enters world (5min timeout)
-6. Brief Delay → Apply 1 second pause after world detection
-7. Stealth Injection → Minimal privilege CreateRemoteThread injection
-8. Trace Cleanup → Flush caches and free injection artifacts
-9. DLL Stage 1 → Basic world monitoring setup only
-10. DLL Stage 2 → Immediate full initialization once world detected
+4. User Confirmation → Wait for user to confirm ready and in-world
+5. Stealth Injection → Manual mapping or traditional injection methods
+6. Trace Cleanup → Flush caches and free injection artifacts
+7. DLL Stage 1 → Basic hooks and stealth measures setup
+8. DLL Stage 2 → Immediate full initialization when user triggered
 ```
 
 ## 🎯 Detection Evasion Strategies
