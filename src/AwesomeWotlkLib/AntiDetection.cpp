@@ -101,6 +101,7 @@ namespace AntiDetection {
             SetThreadPriority(hThread, THREAD_PRIORITY_IDLE);
             
             // Hide from debugger
+            typedef LONG NTSTATUS;  // Define NTSTATUS if not already defined
             typedef NTSTATUS(WINAPI* NtSetInformationThread_t)(HANDLE, ULONG, PVOID, ULONG);
             NtSetInformationThread_t NtSetInformationThread = (NtSetInformationThread_t)
                 GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtSetInformationThread");

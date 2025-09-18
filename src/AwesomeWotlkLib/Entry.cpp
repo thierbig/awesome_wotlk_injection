@@ -50,12 +50,8 @@ static const char* OUR_DLL_NAME = "AwesomeWotlkLib.dll";
 static HMODULE g_ourModule = nullptr;
 static const wchar_t* OUR_DLL_NAME_W = L"AwesomeWotlkLib.dll";
 
-// Define MODULEINFO locally to avoid Psapi dependency
-typedef struct _MODULEINFO {
-    LPVOID lpBaseOfDll;
-    DWORD  SizeOfImage;
-    LPVOID EntryPoint;
-} MODULEINFO, *LPMODULEINFO;
+// MODULEINFO is now defined in Psapi.h which is included via AntiDetection.h
+// No need to redefine it here
 
 // K32 Process Status API pointers (resolved at runtime)
 static BOOL (WINAPI* OriginalK32EnumProcessModules)(HANDLE hProcess, HMODULE* lphModule, DWORD cb, LPDWORD lpcbNeeded) = nullptr;

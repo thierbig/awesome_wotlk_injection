@@ -156,7 +156,7 @@ namespace AdvancedEvasion {
         // Map memory with custom attributes
         static PVOID MapStealthMemory(PVOID preferredBase, SIZE_T size);
         
-    private:
+        // Made public for cleanup by EvasionManager
         static std::vector<PVOID> g_stealthAllocations;
     };
     

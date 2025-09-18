@@ -314,8 +314,10 @@ bool ManualMapper::ExecuteViaThreadHijacking(HANDLE hProcess, LPVOID entryPoint)
     }
     
     // Update shellcode with actual addresses
-    memcpy(&shellcode_x86[15], &baseAddress, sizeof(LPVOID));
-    memcpy(&shellcode_x86[20], &entryPoint, sizeof(LPVOID));
+    // Note: For DLL_PROCESS_ATTACH, the module handle is the base address where DLL is loaded
+    // In this case, we use entryPoint as both the module handle and the entry function
+    memcpy(&shellcode_x86[15], &entryPoint, sizeof(LPVOID)); // hModule parameter
+    memcpy(&shellcode_x86[20], &entryPoint, sizeof(LPVOID)); // DllMain address
     
     // Write shellcode
     WriteProcessMemory(hProcess, shellcodeAddr, shellcode_x86, sizeof(shellcode_x86), nullptr);
