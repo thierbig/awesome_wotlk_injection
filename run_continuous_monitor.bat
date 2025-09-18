@@ -127,9 +127,9 @@ if %INJECT_RESULT% == 0 (
 )
 echo ================================================
 echo:
-echo [INFO] Resuming continuous monitoring in 30 seconds...
+echo [INFO] Resuming continuous monitoring in 5 seconds...
 echo [INFO] If you restart the game, injection will happen automatically
-timeout /t 30 /nobreak
+timeout /t 5 /nobreak
 goto :monitor_loop
 
 :end

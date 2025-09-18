@@ -275,52 +275,120 @@ static void InstallAdvancedEvasion() {
 
 // Delayed initialization function
 static void DelayedInitialization() {
-    // Store our thread ID for hiding
-    g_ourThreadIds.push_back(GetCurrentThreadId());
-    
-    // Install additional evasion measures
-    InstallAdvancedEvasion();
-    
-    // Since user presses key when ready and in-world, initialize immediately
-    OnRealAttach();
+    __try {
+        EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: Starting function");
+        
+        // Store our thread ID for hiding
+        g_ourThreadIds.push_back(GetCurrentThreadId());
+        EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: Thread ID stored");
+        
+        // Install additional evasion measures
+        EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: About to call InstallAdvancedEvasion");
+        InstallAdvancedEvasion();
+        EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: InstallAdvancedEvasion completed");
+        
+        // Since user presses key when ready and in-world, initialize immediately
+        EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: About to call OnRealAttach");
+        OnRealAttach();
+        EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: OnRealAttach completed");
+        
+        EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: Function completed successfully");
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+        EVASION_LOG_ERROR("DELAYED", "DelayedInitialization: CRITICAL EXCEPTION CAUGHT!");
+    }
 }
 
 static void OnRealAttach()
 {
-    // Environment safety check
-    if (!IsEnvironmentSafe()) {
-        return;
+    __try {
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Starting function");
+        
+        // Environment safety check
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to check environment safety");
+        if (!IsEnvironmentSafe()) {
+            EVASION_LOG_WARNING("REAL_ATTACH", "OnRealAttach: Environment not safe, aborting");
+            return;
+        }
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Environment safety check passed");
+        
+        // Initialize advanced evasion techniques
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize advanced evasion");
+        AdvancedEvasion::EvasionManager::InitializeAll();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Advanced evasion initialized");
+        
+        // Apply adaptive evasion based on detected environment
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to apply adaptive evasion");
+        AdvancedEvasion::EvasionManager::ApplyAdaptiveEvasion();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Adaptive evasion applied");
+
+        // Removed fake TOS/EULA memory writes - they were causing crashes
+        // Real TOS/EULA handling should be done through proper game APIs if needed
+
+        // Initialize modules
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Starting module initialization");
+        DetourTransactionBegin();
+        DetourUpdateThread(GetCurrentThread());
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize Hooks");
+        Hooks::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Hooks initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize BugFixes");
+        BugFixes::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: BugFixes initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize CommandLine");
+        CommandLine::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: CommandLine initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize Inventory");
+        Inventory::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Inventory initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize Item");
+        Item::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Item initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize NamePlates");
+        NamePlates::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: NamePlates initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize Misc");
+        Misc::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Misc initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize UnitAPI");
+        UnitAPI::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: UnitAPI initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize Spell");
+        Spell::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Spell initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize VoiceChat");
+        VoiceChat::initialize();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: VoiceChat initialized");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to commit Detour transaction");
+        DetourTransactionCommit();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Detour transaction committed");
+
+        // Register base
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to register Lua library");
+        Hooks::FrameXML::registerLuaLib(lua_openawesomewotlk);
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Lua library registered");
+        
+        // Final evasion check after initialization
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to apply final adaptive evasion");
+        AdvancedEvasion::EvasionManager::ApplyAdaptiveEvasion();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Final adaptive evasion applied");
+        
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Function completed successfully");
     }
-    
-    // Initialize advanced evasion techniques
-    AdvancedEvasion::EvasionManager::InitializeAll();
-    
-    // Apply adaptive evasion based on detected environment
-    AdvancedEvasion::EvasionManager::ApplyAdaptiveEvasion();
-
-    // Removed fake TOS/EULA memory writes - they were causing crashes
-    // Real TOS/EULA handling should be done through proper game APIs if needed
-
-    // Initialize modules
-    DetourTransactionBegin();
-    DetourUpdateThread(GetCurrentThread());
-    Hooks::initialize();
-    BugFixes::initialize();
-    CommandLine::initialize();
-    Inventory::initialize();
-    Item::initialize();
-    NamePlates::initialize();
-    Misc::initialize();
-    UnitAPI::initialize();
-    Spell::initialize();
-    VoiceChat::initialize();
-    DetourTransactionCommit();
-
-    // Register base
-    Hooks::FrameXML::registerLuaLib(lua_openawesomewotlk);
-    
-    // Final evasion check after initialization
-    AdvancedEvasion::EvasionManager::ApplyAdaptiveEvasion();
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+        EVASION_LOG_ERROR("REAL_ATTACH", "OnRealAttach: CRITICAL EXCEPTION CAUGHT!");
+    }
 }
 
 static void OnAttach()
