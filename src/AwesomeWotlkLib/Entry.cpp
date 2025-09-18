@@ -333,37 +333,93 @@ static void OnAttach()
 }
 
 static DWORD WINAPI AttachThread(LPVOID) {
-    g_ourThreadIds.push_back(GetCurrentThreadId());
-    OnAttach();
+    __try {
+        EvasionLogger::Logger::Log("AttachThread: Starting execution", EvasionLogger::LogLevel::INFO);
+        g_ourThreadIds.push_back(GetCurrentThreadId());
+        EvasionLogger::Logger::Log("AttachThread: Thread ID stored", EvasionLogger::LogLevel::INFO);
+        OnAttach();
+        EvasionLogger::Logger::Log("AttachThread: OnAttach completed", EvasionLogger::LogLevel::SUCCESS);
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+        EvasionLogger::Logger::Log("AttachThread: EXCEPTION CAUGHT!", EvasionLogger::LogLevel::ERROR);
+    }
     return 0;
 }
 
 static DWORD WINAPI DelayedInitThread(LPVOID) {
-    g_ourThreadIds.push_back(GetCurrentThreadId());
-    DelayedInitialization();
+    __try {
+        EvasionLogger::Logger::Log("DelayedInitThread: Starting execution", EvasionLogger::LogLevel::INFO);
+        g_ourThreadIds.push_back(GetCurrentThreadId());
+        EvasionLogger::Logger::Log("DelayedInitThread: Thread ID stored", EvasionLogger::LogLevel::INFO);
+        
+        // Add extra delay for full initialization
+        Sleep(3000); // 3 more seconds for total 5 second delay
+        EvasionLogger::Logger::Log("DelayedInitThread: Pre-initialization delay complete", EvasionLogger::LogLevel::INFO);
+        
+        DelayedInitialization();
+        EvasionLogger::Logger::Log("DelayedInitThread: DelayedInitialization completed", EvasionLogger::LogLevel::SUCCESS);
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+        EvasionLogger::Logger::Log("DelayedInitThread: EXCEPTION CAUGHT!", EvasionLogger::LogLevel::ERROR);
+    }
     return 0;
 }
 
 int __stdcall DllMain(HMODULE hModule, DWORD reason, LPVOID)
 {
     if (reason == DLL_PROCESS_ATTACH) {
-        DisableThreadLibraryCalls(hModule);
-        
-        // Store our module handle for hiding
-        g_ourModule = hModule;
-        
-        // Basic attachment and hook setup
-        HANDLE h1 = CreateThread(nullptr, 0, AttachThread, nullptr, 0, nullptr);
-        if (h1) CloseHandle(h1);
-        
-        // Delayed initialization thread
-        HANDLE h2 = CreateThread(nullptr, 0, DelayedInitThread, nullptr, 0, nullptr);
-        if (h2) CloseHandle(h2);
+        // Emergency crash protection
+        __try {
+            // Initialize logging FIRST
+            EvasionLogger::Logger::Initialize();
+            EvasionLogger::Logger::Log("DLL_PROCESS_ATTACH started", EvasionLogger::LogLevel::INFO);
+            
+            DisableThreadLibraryCalls(hModule);
+            
+            // Store our module handle for hiding
+            g_ourModule = hModule;
+            EvasionLogger::Logger::Log("Module handle stored", EvasionLogger::LogLevel::INFO);
+            
+            // Let the game stabilize before doing anything
+            Sleep(2000); // 2 second delay to let game settle
+            EvasionLogger::Logger::Log("Post-attachment stabilization complete", EvasionLogger::LogLevel::INFO);
+            
+            // Basic attachment and hook setup
+            HANDLE h1 = CreateThread(nullptr, 0, AttachThread, nullptr, 0, nullptr);
+            if (h1) {
+                CloseHandle(h1);
+                EvasionLogger::Logger::Log("AttachThread started successfully", EvasionLogger::LogLevel::INFO);
+            } else {
+                EvasionLogger::Logger::Log("AttachThread creation failed", EvasionLogger::LogLevel::ERROR);
+            }
+            
+            // Delayed initialization thread
+            HANDLE h2 = CreateThread(nullptr, 0, DelayedInitThread, nullptr, 0, nullptr);
+            if (h2) {
+                CloseHandle(h2);
+                EvasionLogger::Logger::Log("DelayedInitThread started successfully", EvasionLogger::LogLevel::INFO);
+            } else {
+                EvasionLogger::Logger::Log("DelayedInitThread creation failed", EvasionLogger::LogLevel::ERROR);
+            }
+            
+            EvasionLogger::Logger::Log("DLL_PROCESS_ATTACH completed successfully", EvasionLogger::LogLevel::SUCCESS);
+        }
+        __except(EXCEPTION_EXECUTE_HANDLER) {
+            // Log the crash if possible
+            EvasionLogger::Logger::Log("CRITICAL: Exception in DllMain!", EvasionLogger::LogLevel::ERROR);
+            return 0; // Fail DLL load to prevent further crashes
+        }
     }
     else if (reason == DLL_PROCESS_DETACH) {
-        // Cleanup advanced evasion and show final status
-        AdvancedEvasion::EvasionManager::Cleanup();
-        EvasionLogger::Logger::Cleanup();
+        __try {
+            EvasionLogger::Logger::Log("DLL_PROCESS_DETACH started", EvasionLogger::LogLevel::INFO);
+            // Cleanup advanced evasion and show final status
+            AdvancedEvasion::EvasionManager::Cleanup();
+            EvasionLogger::Logger::Cleanup();
+        }
+        __except(EXCEPTION_EXECUTE_HANDLER) {
+            // Silent cleanup failure
+        }
     }
     return 1;
 }

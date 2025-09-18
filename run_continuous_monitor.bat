@@ -65,8 +65,8 @@ goto :monitor_loop
 
 :found_process
 echo [INFO] Target process: %target_process%
-echo [INFO] Waiting 30 seconds for game to fully load...
-timeout /t 30 /nobreak
+echo [INFO] Waiting 5 seconds for game to fully load...
+timeout /t 5 /nobreak
 
 echo:
 echo ================================================
