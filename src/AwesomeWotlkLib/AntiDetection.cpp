@@ -1,9 +1,10 @@
 #include "AntiDetection.h"
-#include <intrin.h>
-#include <winternl.h>
-#include <random>
-#include <chrono>
+#include <iostream>
 #include <thread>
+#include <chrono>
+#include <cmath>
+
+#pragma comment(lib, "Psapi.lib")
 
 namespace AntiDetection {
     
@@ -421,7 +422,9 @@ namespace AntiDetection {
         for (int i = 0; i < 1000; i++) {
             dummy[i] = i * i;
         }
-        std::random_shuffle(dummy.begin(), dummy.end());
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(dummy.begin(), dummy.end(), g);
     }
 
     // API resolution by hash
@@ -500,13 +503,15 @@ namespace AntiDetection {
     }
 
     bool IntegrityMonitor::VerifyIntegrity() {
-        for (const auto& [hModule, originalChecksum] : g_moduleChecksums) {
+        for (auto it = g_moduleChecksums.begin(); it != g_moduleChecksums.end(); ++it) {
+            HMODULE hModule = it->first;
+            DWORD originalChecksum = it->second;
             MODULEINFO modInfo;
             if (GetModuleInformation(GetCurrentProcess(), hModule, &modInfo, sizeof(modInfo))) {
                 DWORD currentChecksum = CalculateChecksum(modInfo.lpBaseOfDll,
-                    min(modInfo.SizeOfImage, 0x1000));
+                    min(modInfo.SizeOfImage, (SIZE_T)0x1000));
                 if (currentChecksum != originalChecksum) {
-                    return false; // Module has been modified
+                    return false;
                 }
             }
         }

@@ -3,6 +3,10 @@
 #include <vector>
 #include <random>
 #include <string>
+#include <unordered_map>
+#include <TlHelp32.h>
+#include <Psapi.h>
+#include <algorithm>
 
 namespace AntiDetection {
     // Memory pattern scrambling

@@ -1,6 +1,9 @@
 #pragma once
 #include <Windows.h>
 #include <winternl.h>
+#include <vector>
+#include <string>
+#include <unordered_map>
 
 namespace AdvancedEvasion {
     
@@ -24,6 +27,11 @@ namespace AdvancedEvasion {
         
         // Get syscall number dynamically
         static DWORD GetSyscallNumber(const char* functionName);
+        
+        // Define MEMORY_INFORMATION_CLASS if not defined
+        typedef enum _MEMORY_INFORMATION_CLASS {
+            MemoryBasicInformation
+        } MEMORY_INFORMATION_CLASS;
         
         // Indirect syscall wrappers
         static NTSTATUS IndirectNtQueryVirtualMemory(

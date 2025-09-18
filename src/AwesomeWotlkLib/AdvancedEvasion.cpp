@@ -132,7 +132,7 @@ namespace AdvancedEvasion {
     NTSTATUS SyscallEvasion::IndirectNtQueryVirtualMemory(
         HANDLE ProcessHandle,
         PVOID BaseAddress,
-        MEMORY_INFORMATION_CLASS MemoryInformationClass,
+        SyscallEvasion::MEMORY_INFORMATION_CLASS MemoryInformationClass,
         PVOID MemoryInformation,
         SIZE_T MemoryInformationLength,
         PSIZE_T ReturnLength) {
@@ -506,8 +506,9 @@ namespace AdvancedEvasion {
         }
         
         // Clean up stealth allocations
-        for (PVOID addr : MemoryEvasion::g_stealthAllocations) {
-            VirtualFree(addr, 0, MEM_RELEASE);
+        for (auto it = MemoryEvasion::g_stealthAllocations.begin(); 
+             it != MemoryEvasion::g_stealthAllocations.end(); ++it) {
+            VirtualFree(*it, 0, MEM_RELEASE);
         }
         MemoryEvasion::g_stealthAllocations.clear();
     }
