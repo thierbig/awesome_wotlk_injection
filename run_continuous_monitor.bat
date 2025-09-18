@@ -2,12 +2,12 @@
 title Awesome WotLK Injector - Continuous Monitor
 color 0B
 
-echo.
+echo:
 echo ================================================
 echo    AWESOME WOTLK INJECTOR - CONTINUOUS MONITOR
 echo    Waiting for game launch...
 echo ================================================
-echo.
+echo:
 
 :: Check admin privileges
 net session >nul 2>&1
@@ -17,19 +17,19 @@ if %errorLevel% == 0 (
     echo [ERROR] Not running as Administrator!
     echo [ERROR] Many evasion techniques will fail without admin rights
     echo [ERROR] Right-click this file and select "Run as Administrator"
-    echo.
+    echo:
     set /p choice="Continue anyway? (y/N): "
     if /i not "%choice%"=="y" goto :end_with_pause
 )
 
-echo.
+echo:
 echo [INFO] Continuous monitoring mode enabled
 echo [INFO] This window will stay open and monitor for game launches
 echo [INFO] You can start the game at any time - injection will happen automatically
-echo.
+echo:
 echo [INFO] Monitoring for processes: Project Epoch.exe, ascension.exe
 echo [INFO] Press Ctrl+C at any time to stop monitoring
-echo.
+echo:
 
 :monitor_loop
 echo [%TIME%] Scanning for target processes...
@@ -37,7 +37,7 @@ echo [%TIME%] Scanning for target processes...
 :: Check for Project Epoch
 tasklist /FI "IMAGENAME eq Project Epoch.exe" 2>NUL | find /I /N "Project Epoch.exe">NUL
 if "%ERRORLEVEL%"=="0" (
-    echo.
+    echo:
     echo [SUCCESS] Found Project Epoch.exe at %TIME%
     set "target_process=Project Epoch.exe"
     goto :found_process
@@ -46,7 +46,7 @@ if "%ERRORLEVEL%"=="0" (
 :: Check for Ascension  
 tasklist /FI "IMAGENAME eq ascension.exe" 2>NUL | find /I /N "ascension.exe">NUL
 if "%ERRORLEVEL%"=="0" (
-    echo.
+    echo:
     echo [SUCCESS] Found ascension.exe at %TIME%
     set "target_process=ascension.exe"
     goto :found_process
@@ -61,11 +61,11 @@ echo [INFO] Target process: %target_process%
 echo [INFO] Waiting 30 seconds for game to fully load...
 timeout /t 30 /nobreak
 
-echo.
+echo:
 echo ================================================
 echo    GAME DETECTED - STARTING INJECTION
 echo ================================================
-echo.
+echo:
 
 :: Create timestamped log file
 if not exist "logs" mkdir logs
@@ -76,28 +76,33 @@ set "timestamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
 echo [INFO] Full debug logging enabled
 echo [INFO] Log file: logs\injection_log_%timestamp%.txt
-echo.
+echo:
 
 :: Debug and run the injector
 echo [DEBUG] Current directory: %CD%
 echo [DEBUG] Script directory: %~dp0
 echo [DEBUG] Looking for: %~dp0AwesomeWotlkInjector.exe
+echo [DEBUG] Directory listing:
+dir "%~dp0*.exe" /b
+dir "%~dp0*.dll" /b
+echo [DEBUG] Trying alternative check...
 if exist "%~dp0AwesomeWotlkInjector.exe" (
     echo [SUCCESS] Found AwesomeWotlkInjector.exe
 ) else (
-    echo [ERROR] AwesomeWotlkInjector.exe NOT FOUND!
-    goto :end_with_pause
+    echo [ERROR] AwesomeWotlkInjector.exe NOT FOUND by IF EXIST!
+    echo [DEBUG] Trying direct execution anyway...
 )
 
 echo [INFO] Launching injector with full evasion logging...
+echo [INFO] Target process: %target_process%
 echo [WARNING] The injector will prompt 'Press any key when ready...'
 echo [WARNING] You'll need to press a key in the injector window when you're in-game
-echo.
-"%~dp0AwesomeWotlkInjector.exe"
+echo:
+"%~dp0AwesomeWotlkInjector.exe" "%target_process%"
 set INJECT_RESULT=%errorLevel%
 
 :: Check injection result
-echo.
+echo:
 echo ================================================
 if %INJECT_RESULT% == 0 (
     echo [SUCCESS] INJECTION COMPLETED SUCCESSFULLY!
@@ -114,7 +119,7 @@ if %INJECT_RESULT% == 0 (
     echo [ERROR] - AwesomeWotlkLib.dll not found
 )
 echo ================================================
-echo.
+echo:
 echo [INFO] Resuming continuous monitoring in 30 seconds...
 echo [INFO] If you restart the game, injection will happen automatically
 timeout /t 30 /nobreak

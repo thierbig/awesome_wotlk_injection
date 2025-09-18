@@ -94,7 +94,14 @@ DWORD GetProcessIdByName(const std::wstring& processName) {
 
     if (Process32FirstW(snapshot, &entry) == TRUE) {
         while (Process32NextW(snapshot, &entry) == TRUE) {
-            if (std::wstring(entry.szExeFile) == processName) {
+            std::wstring entryName = entry.szExeFile;
+            std::wstring targetName = processName;
+            
+            // Convert both to lowercase for case-insensitive comparison
+            std::transform(entryName.begin(), entryName.end(), entryName.begin(), ::towlower);
+            std::transform(targetName.begin(), targetName.end(), targetName.begin(), ::towlower);
+            
+            if (entryName == targetName) {
                 CloseHandle(snapshot);
                 return entry.th32ProcessID;
             }
