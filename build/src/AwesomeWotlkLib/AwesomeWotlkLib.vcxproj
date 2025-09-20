@@ -22,9 +22,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{77305558-D456-30EE-B0F4-4742A904FB98}</ProjectGuid>
+    <ProjectGuid>{AC0B7073-70B3-3ED8-957D-47CF434AE3C3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>Win32</Platform>
     <ProjectName>AwesomeWotlkLib</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -59,25 +59,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\thier\awesome_woltk_injection\build\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\thier\awesome_wotlk_injection\build\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AwesomeWotlkLib.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AwesomeWotlkLib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\thier\awesome_woltk_injection\build\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\thier\awesome_wotlk_injection\build\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AwesomeWotlkLib.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AwesomeWotlkLib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\thier\awesome_woltk_injection\build\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\thier\awesome_wotlk_injection\build\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">AwesomeWotlkLib.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">AwesomeWotlkLib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\thier\awesome_woltk_injection\build\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\thier\awesome_wotlk_injection\build\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">AwesomeWotlkLib.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">AwesomeWotlkLib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.dll</TargetExt>
@@ -87,7 +87,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -112,10 +112,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;NOWINBASEINTERLOCK;_WIN32_WINNT=0x0601;DEBUG;APP_NAME=\"AwesomeWotlkLib\";WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;UNICODE;_UNICODE;CMAKE_INTDIR=\"Debug\";AwesomeWotlkLib_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -130,9 +130,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/thier/awesome_woltk_injection/build/Debug/AwesomeWotlkLib.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/thier/awesome_wotlk_injection/build/Debug/AwesomeWotlkLib.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/thier/awesome_woltk_injection/build/Debug/AwesomeWotlkLib.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/thier/awesome_wotlk_injection/build/Debug/AwesomeWotlkLib.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem></SubSystem>
     </Link>
@@ -142,7 +142,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /Gw</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -170,10 +170,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;NOWINBASEINTERLOCK;_WIN32_WINNT=0x0601;NDEBUG;APP_NAME=\"AwesomeWotlkLib\";WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;UNICODE;_UNICODE;CMAKE_INTDIR=\"Release\";AwesomeWotlkLib_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -188,10 +188,10 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/thier/awesome_woltk_injection/build/Release/AwesomeWotlkLib.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/thier/awesome_wotlk_injection/build/Release/AwesomeWotlkLib.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <ProgramDataBaseFile>C:/Users/thier/awesome_woltk_injection/build/Release/AwesomeWotlkLib.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/thier/awesome_wotlk_injection/build/Release/AwesomeWotlkLib.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem></SubSystem>
     </Link>
@@ -201,7 +201,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <DisableSpecificWarnings>4458</DisableSpecificWarnings>
@@ -227,10 +227,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;NOWINBASEINTERLOCK;_WIN32_WINNT=0x0601;NDEBUG;APP_NAME=\"AwesomeWotlkLib\";WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;UNICODE;_UNICODE;CMAKE_INTDIR=\"MinSizeRel\";AwesomeWotlkLib_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -245,9 +245,9 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/thier/awesome_woltk_injection/build/MinSizeRel/AwesomeWotlkLib.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/thier/awesome_wotlk_injection/build/MinSizeRel/AwesomeWotlkLib.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/thier/awesome_woltk_injection/build/MinSizeRel/AwesomeWotlkLib.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/thier/awesome_wotlk_injection/build/MinSizeRel/AwesomeWotlkLib.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem></SubSystem>
     </Link>
@@ -257,7 +257,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -282,10 +282,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;NOWINBASEINTERLOCK;_WIN32_WINNT=0x0601;NDEBUG;APP_NAME=\"AwesomeWotlkLib\";WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;UNICODE;_UNICODE;CMAKE_INTDIR=\"RelWithDebInfo\";AwesomeWotlkLib_EXPORTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\thier\awesome_woltk_injection\deps;C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thier\awesome_wotlk_injection\deps;C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -300,9 +300,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/thier/awesome_woltk_injection/build/RelWithDebInfo/AwesomeWotlkLib.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/thier/awesome_wotlk_injection/build/RelWithDebInfo/AwesomeWotlkLib.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/thier/awesome_woltk_injection/build/RelWithDebInfo/AwesomeWotlkLib.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/thier/awesome_wotlk_injection/build/RelWithDebInfo/AwesomeWotlkLib.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem></SubSystem>
     </Link>
@@ -311,41 +311,41 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Entry.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\GameClient.h" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\NamePlates.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\NamePlates.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Hooks.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Hooks.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Misc.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Misc.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\BugFixes.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\BugFixes.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Utils.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Utils.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\CommandLine.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\CommandLine.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Inventory.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Inventory.h" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Item.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Item.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\UnitAPI.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\UnitAPI.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Spell.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Spell.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\VoiceChat.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\VoiceChat.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\AntiDetection.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\AntiDetection.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\AdvancedEvasion.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\AdvancedEvasion.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\EvasionLogger.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\EvasionLogger.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Entry.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\GameClient.h" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\NamePlates.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\NamePlates.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Hooks.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Hooks.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Misc.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Misc.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\BugFixes.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\BugFixes.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Utils.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Utils.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\CommandLine.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\CommandLine.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Inventory.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Inventory.h" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Item.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Item.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\UnitAPI.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\UnitAPI.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Spell.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Spell.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\VoiceChat.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\VoiceChat.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\AntiDetection.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\AntiDetection.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\AdvancedEvasion.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\AdvancedEvasion.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\EvasionLogger.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\EvasionLogger.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Users\thier\awesome_woltk_injection\build\deps\Detours\Detours.vcxproj">
-      <Project>{754D2B2A-3CCE-3F50-A0EA-A7AE6BCB508F}</Project>
+    <ProjectReference Include="C:\Users\thier\awesome_wotlk_injection\build\deps\Detours\Detours.vcxproj">
+      <Project>{9319FAFE-1888-3F5B-81FF-B7E7583B729E}</Project>
       <Name>Detours</Name>
     </ProjectReference>
   </ItemGroup>

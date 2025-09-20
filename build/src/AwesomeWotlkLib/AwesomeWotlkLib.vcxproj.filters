@@ -1,105 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Entry.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Entry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\NamePlates.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\NamePlates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Hooks.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Misc.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\BugFixes.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\BugFixes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Utils.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\CommandLine.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\CommandLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Inventory.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Item.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\UnitAPI.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\UnitAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Spell.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Spell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\VoiceChat.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\VoiceChat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\AntiDetection.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\AntiDetection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\AdvancedEvasion.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\AdvancedEvasion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\EvasionLogger.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\EvasionLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\GameClient.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\GameClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\NamePlates.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\NamePlates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Hooks.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Hooks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Misc.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Misc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\BugFixes.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\BugFixes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Utils.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\CommandLine.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\CommandLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Inventory.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Item.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\UnitAPI.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\UnitAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\Spell.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\Spell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\VoiceChat.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\VoiceChat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\AntiDetection.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\AntiDetection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\AdvancedEvasion.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\AdvancedEvasion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkLib\EvasionLogger.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkLib\EvasionLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{AC6C0C7F-14B4-326E-890B-8EA6FF5C8C42}</UniqueIdentifier>
+      <UniqueIdentifier>{33213C0E-C912-3E6B-AE5A-F46586CFB6D3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{14F8B274-27A1-337E-B57E-3C12BAB075F7}</UniqueIdentifier>
+      <UniqueIdentifier>{E6F2859E-599E-34C1-B23B-B1B844985903}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -420,9 +420,20 @@ namespace AdvancedEvasion {
     bool EvasionManager::g_stackSpoofed = false;
     
     bool EvasionManager::InitializeAll() {
-        // Initialize logging first
-        EvasionLogger::Logger::Initialize(true, false); // Console logging enabled
-        EVASION_LOG_SUCCESS("INIT", "Evasion Manager initialized - starting technique deployment");
+        // Check verbosity setting from environment variable
+        bool verboseMode = false; // Default to verbose
+        char* envVar = nullptr;
+        size_t len = 0;
+        if (_dupenv_s(&envVar, &len, "AWESOME_VERBOSE") == 0 && envVar != nullptr) {
+            verboseMode = (strcmp(envVar, "1") == 0 || _stricmp(envVar, "true") == 0);
+            free(envVar);
+        }
+        
+        // Initialize logging first - respect verbosity setting
+        EvasionLogger::Logger::Initialize(verboseMode, false); // Console logging based on verbosity
+        if (verboseMode) {
+            EVASION_LOG_SUCCESS("INIT", "Evasion Manager initialized - starting technique deployment");
+        }
         
         bool success = true;
         

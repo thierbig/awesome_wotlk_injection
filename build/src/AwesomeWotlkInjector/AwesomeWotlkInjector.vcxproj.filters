@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkInjector\Injector.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkInjector\Injector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkInjector\ManualMapper.cpp">
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkInjector\ManualMapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkInjector\ManualMapper.h">
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkInjector\ManualMapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{AC6C0C7F-14B4-326E-890B-8EA6FF5C8C42}</UniqueIdentifier>
+      <UniqueIdentifier>{33213C0E-C912-3E6B-AE5A-F46586CFB6D3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{14F8B274-27A1-337E-B57E-3C12BAB075F7}</UniqueIdentifier>
+      <UniqueIdentifier>{E6F2859E-599E-34C1-B23B-B1B844985903}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

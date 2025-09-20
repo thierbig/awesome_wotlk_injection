@@ -526,9 +526,20 @@ int __stdcall DllMain(HMODULE hModule, DWORD reason, LPVOID)
     if (reason == DLL_PROCESS_ATTACH) {
         // Emergency crash protection
         __try {
-            // Initialize logging FIRST
-            EvasionLogger::Logger::Initialize(true, true); // Console + file logging
-            EVASION_LOG_SUCCESS("INIT", "DLL_PROCESS_ATTACH started");
+            // Check verbosity setting from environment variable
+            bool verboseMode = false; // Default to verbose
+            char* envVar = nullptr;
+            size_t len = 0;
+            if (_dupenv_s(&envVar, &len, "AWESOME_VERBOSE") == 0 && envVar != nullptr) {
+                verboseMode = (strcmp(envVar, "1") == 0 || _stricmp(envVar, "true") == 0);
+                free(envVar);
+            }
+            
+            // Initialize logging FIRST - respect verbosity setting
+            EvasionLogger::Logger::Initialize(verboseMode, verboseMode); // Console + file logging based on verbosity
+            if (verboseMode) {
+                EVASION_LOG_SUCCESS("INIT", "DLL_PROCESS_ATTACH started");
+            }
             
             DisableThreadLibraryCalls(hModule);
             

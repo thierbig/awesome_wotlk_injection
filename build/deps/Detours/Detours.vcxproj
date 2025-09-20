@@ -22,9 +22,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{754D2B2A-3CCE-3F50-A0EA-A7AE6BCB508F}</ProjectGuid>
+    <ProjectGuid>{9319FAFE-1888-3F5B-81FF-B7E7583B729E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>Win32</Platform>
     <ProjectName>Detours</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -59,19 +59,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\thier\awesome_woltk_injection\build\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\thier\awesome_wotlk_injection\build\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Detours.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Detours</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\thier\awesome_woltk_injection\build\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\thier\awesome_wotlk_injection\build\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Detours.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Detours</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\thier\awesome_woltk_injection\build\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\thier\awesome_wotlk_injection\build\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Detours.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Detours</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\thier\awesome_woltk_injection\build\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\thier\awesome_wotlk_injection\build\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Detours.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Detours</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
@@ -241,19 +241,19 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\creatwth.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\detours.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\detours.h" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\detver.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\disasm.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\disolarm.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\disolarm64.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\disolia64.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\disolx64.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\disolx86.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\image.cpp" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\modules.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\deps\Detours\uimports.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\creatwth.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\detours.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\detours.h" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\detver.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\disasm.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\disolarm.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\disolarm64.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\disolia64.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\disolx64.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\disolx86.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\image.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\modules.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\deps\Detours\uimports.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -25,9 +25,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A8005647-2D08-3DA8-A3AA-0CA69F5AC748}</ProjectGuid>
+    <ProjectGuid>{CB2E0271-112B-399F-951D-DA6249A77106}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>Win32</Platform>
     <ProjectName>ALL_BUILD</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -111,8 +111,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Users\thier\awesome_woltk_injection\build\deps\Detours\Detours.vcxproj">
-      <Project>{754D2B2A-3CCE-3F50-A0EA-A7AE6BCB508F}</Project>
+    <ProjectReference Include="C:\Users\thier\awesome_wotlk_injection\build\deps\Detours\Detours.vcxproj">
+      <Project>{9319FAFE-1888-3F5B-81FF-B7E7583B729E}</Project>
       <Name>Detours</Name>
     </ProjectReference>
   </ItemGroup>

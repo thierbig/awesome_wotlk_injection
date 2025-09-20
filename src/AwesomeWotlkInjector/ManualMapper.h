@@ -3,6 +3,9 @@
 #include <vector>
 #include <string>
 
+// External verbosity control from Injector.cpp
+extern const bool VERBOSE_MODE;
+
 class ManualMapper {
 public:
     // Manual mapping without CreateRemoteThread
@@ -25,7 +28,8 @@ private:
     // Relocation processing
     static bool ProcessRelocations(HANDLE hProcess, LPVOID baseAddress,
                                   IMAGE_NT_HEADERS* ntHeaders,
-                                  DWORD_PTR deltaBase);
+                                  DWORD_PTR deltaBase,
+                                  const std::vector<BYTE>& dllData);
     
     // Import resolution
     static bool ResolveImports(HANDLE hProcess, LPVOID baseAddress,

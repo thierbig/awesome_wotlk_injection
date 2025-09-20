@@ -1,7 +1,7 @@
-C:/Users/thier/awesome_woltk_injection/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/thier/awesome_woltk_injection/build/deps/Detours/CMakeFiles/Detours.dir
-C:/Users/thier/awesome_woltk_injection/build/deps/Detours/CMakeFiles/ALL_BUILD.dir
-C:/Users/thier/awesome_woltk_injection/build/src/AwesomeWotlkLib/CMakeFiles/AwesomeWotlkLib.dir
-C:/Users/thier/awesome_woltk_injection/build/src/AwesomeWotlkLib/CMakeFiles/ALL_BUILD.dir
-C:/Users/thier/awesome_woltk_injection/build/src/AwesomeWotlkInjector/CMakeFiles/AwesomeWotlkInjector.dir
-C:/Users/thier/awesome_woltk_injection/build/src/AwesomeWotlkInjector/CMakeFiles/ALL_BUILD.dir
+C:/Users/thier/awesome_wotlk_injection/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/thier/awesome_wotlk_injection/build/deps/Detours/CMakeFiles/Detours.dir
+C:/Users/thier/awesome_wotlk_injection/build/deps/Detours/CMakeFiles/ALL_BUILD.dir
+C:/Users/thier/awesome_wotlk_injection/build/src/AwesomeWotlkLib/CMakeFiles/AwesomeWotlkLib.dir
+C:/Users/thier/awesome_wotlk_injection/build/src/AwesomeWotlkLib/CMakeFiles/ALL_BUILD.dir
+C:/Users/thier/awesome_wotlk_injection/build/src/AwesomeWotlkInjector/CMakeFiles/AwesomeWotlkInjector.dir
+C:/Users/thier/awesome_wotlk_injection/build/src/AwesomeWotlkInjector/CMakeFiles/ALL_BUILD.dir

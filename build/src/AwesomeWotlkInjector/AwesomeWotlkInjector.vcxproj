@@ -22,9 +22,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6E580451-6577-3C09-B35B-8C086D8DFFF6}</ProjectGuid>
+    <ProjectGuid>{0497AFE6-679B-3F1E-AFF1-68D4665C0080}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>Win32</Platform>
     <ProjectName>AwesomeWotlkInjector</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -59,25 +59,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\thier\awesome_woltk_injection\build\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\thier\awesome_wotlk_injection\build\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AwesomeWotlkInjector.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AwesomeWotlkInjector</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\thier\awesome_woltk_injection\build\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\thier\awesome_wotlk_injection\build\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AwesomeWotlkInjector.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AwesomeWotlkInjector</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\thier\awesome_woltk_injection\build\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\thier\awesome_wotlk_injection\build\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">AwesomeWotlkInjector.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">AwesomeWotlkInjector</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\thier\awesome_woltk_injection\build\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\thier\awesome_wotlk_injection\build\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">AwesomeWotlkInjector.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">AwesomeWotlkInjector</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.exe</TargetExt>
@@ -127,9 +127,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/thier/awesome_woltk_injection/build/Debug/AwesomeWotlkInjector.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/thier/awesome_wotlk_injection/build/Debug/AwesomeWotlkInjector.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/thier/awesome_woltk_injection/build/Debug/AwesomeWotlkInjector.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/thier/awesome_wotlk_injection/build/Debug/AwesomeWotlkInjector.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -183,10 +183,10 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/thier/awesome_woltk_injection/build/Release/AwesomeWotlkInjector.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/thier/awesome_wotlk_injection/build/Release/AwesomeWotlkInjector.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <ProgramDataBaseFile>C:/Users/thier/awesome_woltk_injection/build/Release/AwesomeWotlkInjector.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/thier/awesome_wotlk_injection/build/Release/AwesomeWotlkInjector.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -238,9 +238,9 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/thier/awesome_woltk_injection/build/MinSizeRel/AwesomeWotlkInjector.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/thier/awesome_wotlk_injection/build/MinSizeRel/AwesomeWotlkInjector.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/thier/awesome_woltk_injection/build/MinSizeRel/AwesomeWotlkInjector.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/thier/awesome_wotlk_injection/build/MinSizeRel/AwesomeWotlkInjector.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -291,9 +291,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/thier/awesome_woltk_injection/build/RelWithDebInfo/AwesomeWotlkInjector.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/thier/awesome_wotlk_injection/build/RelWithDebInfo/AwesomeWotlkInjector.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/thier/awesome_woltk_injection/build/RelWithDebInfo/AwesomeWotlkInjector.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/thier/awesome_wotlk_injection/build/RelWithDebInfo/AwesomeWotlkInjector.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -302,9 +302,9 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkInjector\Injector.cpp" />
-    <ClInclude Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkInjector\ManualMapper.h" />
-    <ClCompile Include="C:\Users\thier\awesome_woltk_injection\src\AwesomeWotlkInjector\ManualMapper.cpp" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkInjector\Injector.cpp" />
+    <ClInclude Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkInjector\ManualMapper.h" />
+    <ClCompile Include="C:\Users\thier\awesome_wotlk_injection\src\AwesomeWotlkInjector\ManualMapper.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

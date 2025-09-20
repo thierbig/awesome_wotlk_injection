@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/thier/awesome_woltk_injection/deps/Detours
+# Install script for directory: C:/Users/thier/awesome_wotlk_injection/deps/Detours
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,6 +35,6 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "C:/Users/thier/awesome_woltk_injection/build/deps/Detours/install_local_manifest.txt"
+  file(WRITE "C:/Users/thier/awesome_wotlk_injection/build/deps/Detours/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

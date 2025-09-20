@@ -25,9 +25,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A8005647-2D08-3DA8-A3AA-0CA69F5AC748}</ProjectGuid>
+    <ProjectGuid>{CB2E0271-112B-399F-951D-DA6249A77106}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>Win32</Platform>
     <ProjectName>ALL_BUILD</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -111,8 +111,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Users\thier\awesome_woltk_injection\build\src\AwesomeWotlkInjector\AwesomeWotlkInjector.vcxproj">
-      <Project>{6E580451-6577-3C09-B35B-8C086D8DFFF6}</Project>
+    <ProjectReference Include="C:\Users\thier\awesome_wotlk_injection\build\src\AwesomeWotlkInjector\AwesomeWotlkInjector.vcxproj">
+      <Project>{0497AFE6-679B-3F1E-AFF1-68D4665C0080}</Project>
       <Name>AwesomeWotlkInjector</Name>
     </ProjectReference>
   </ItemGroup>

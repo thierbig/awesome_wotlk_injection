@@ -11,6 +11,28 @@
 #include <cwctype>
 #include "ManualMapper.h"
 
+// Verbosity control - change this to false for production
+// Or set via environment variable AWESOME_VERBOSE=0 for production
+static bool GetVerboseMode() {
+    // Check environment variable first
+    return false;
+    char* envVar = nullptr;
+    size_t len = 0;
+    if (_dupenv_s(&envVar, &len, "AWESOME_VERBOSE") == 0 && envVar != nullptr) {
+        bool result = (strcmp(envVar, "1") == 0 || _stricmp(envVar, "true") == 0);
+        free(envVar);
+        return result;
+    }
+    // Default to true (dev mode) if no environment variable
+    return false;
+}
+const bool VERBOSE_MODE = GetVerboseMode();
+
+// Logging macros
+#define LOG_INFO(msg) if (VERBOSE_MODE) { std::wcout << msg << std::endl; }
+#define LOG_ERROR(msg) std::wcerr << msg << std::endl;
+#define LOG_SUCCESS(msg) std::wcout << msg << std::endl;
+
 // Forward declarations
 DWORD GetProcessIdByName(const std::wstring& processName);
 
@@ -115,7 +137,7 @@ DWORD GetProcessIdByName(const std::wstring& processName) {
 int wmain(int argc, wchar_t* argv[]) {
     // Anti-analysis checks
     if (IsDebuggerAttached() || IsAnalysisToolRunning()) {
-        std::wcerr << L"Security check failed. Environment not suitable for operation." << std::endl;
+        LOG_ERROR(L"Security check failed. Environment not suitable for operation.");
         return 1;
     }
     
@@ -126,27 +148,41 @@ int wmain(int argc, wchar_t* argv[]) {
     };
     std::wstring dllName = L"AwesomeWotlkLib.dll"; // Fixed: no more obfuscation issues
     std::wstring targetProcessName;
+    bool forceManualMapping = false;
 
     // Check if user provided custom process name
     if (argc >= 2 && argv[1] && wcslen(argv[1]) > 0) {
-        targetProcessName = argv[1];
+        if (wcscmp(argv[1], L"--manual") == 0) {
+            forceManualMapping = true;
+        } else {
+            targetProcessName = argv[1];
+        }
     }
     if (argc >= 3 && argv[2] && wcslen(argv[2]) > 0) {
-        dllName = argv[2];
+        if (wcscmp(argv[2], L"--manual") == 0) {
+            forceManualMapping = true;
+        } else {
+            dllName = argv[2];
+        }
+    }
+    if (argc >= 4 && argv[3] && wcslen(argv[3]) > 0) {
+        if (wcscmp(argv[3], L"--manual") == 0) {
+            forceManualMapping = true;
+        }
     }
 
     // 1. Get the full path to the DLL (located next to the injector executable)
     wchar_t modulePath[MAX_PATH] = {0};
     DWORD len = GetModuleFileNameW(nullptr, modulePath, MAX_PATH);
     if (len == 0 || len >= MAX_PATH) {
-        std::wcerr << L"Error: Failed to get injector module path." << std::endl;
+        LOG_ERROR(L"Error: Failed to get injector module path.");
         return 1;
     }
     std::filesystem::path dllPath = std::filesystem::path(modulePath).parent_path() / dllName;
 
     if (!std::filesystem::exists(dllPath)) {
-        std::wcerr << L"Error: '" << dllName << L"' not found next to the injector executable." << std::endl;
-        std::wcerr << L"Please place the injector and the DLL in the same directory." << std::endl;
+        LOG_ERROR(L"Error: '" + dllName + L"' not found next to the injector executable.");
+        LOG_ERROR(L"Please place the injector and the DLL in the same directory.");
         return 1;
     }
 
@@ -171,14 +207,14 @@ int wmain(int argc, wchar_t* argv[]) {
     
     if (procId == 0) {
         if (!targetProcessName.empty()) {
-            std::wcerr << L"Error: Process '" << targetProcessName << L"' not found." << std::endl;
+            LOG_ERROR(L"Error: Process '" + targetProcessName + L"' not found.");
         } else {
-            std::wcerr << L"Error: Neither 'Project Epoch.exe' nor 'ascension.exe' found." << std::endl;
+            LOG_ERROR(L"Error: Neither 'Project Epoch.exe' nor 'ascension.exe' found.");
         }
         return 1;
     }
 
-    std::wcout << L"Target process '" << foundProcessName << L"' found. PID: " << procId << std::endl;
+    LOG_SUCCESS(L"Target process '" + foundProcessName + L"' found. PID: " + std::to_wstring(procId));
     
     // Perform security checks  
     PerformSecurityChecks();
@@ -187,91 +223,105 @@ int wmain(int argc, wchar_t* argv[]) {
     HANDLE hTempProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, procId);
     if (hTempProcess) {
         if (IsClientExtensionsLoaded(hTempProcess)) {
-            std::wcout << L"[INFO] ClientExtensions.dll detected - anti-cheat present. Enhanced stealth mode enabled." << std::endl;
+            LOG_INFO(L"[INFO] ClientExtensions.dll detected - anti-cheat present. Enhanced stealth mode enabled.");
         }
         CloseHandle(hTempProcess);
     }
     
-    std::wcout << L"Starting injection..." << std::endl;
+    LOG_INFO(L"Starting injection...");
 
-    // Try advanced injection methods first for better stealth
+    // Try injection methods in order of reliability for complex DLLs
     bool injectionSuccessful = false;
     
-    // Method 1: Manual Mapping (Most stealthy)
-    std::wcout << L"Attempting manual mapping injection..." << std::endl;
-    if (ManualMapper::InjectDLL(procId, dllPath.wstring())) {
-        std::wcout << L"Manual mapping injection completed successfully!" << std::endl;
-        injectionSuccessful = true;
-    } else {
-        std::wcout << L"Manual mapping failed, falling back to traditional injection..." << std::endl;
+    if (forceManualMapping) {
+        LOG_INFO(L"Manual mapping forced by command line argument.");
+    }
+    
+    // Method 1: Traditional LoadLibrary (Most reliable for complex DLLs)
+    if (!forceManualMapping) {
+        LOG_INFO(L"Attempting traditional LoadLibrary injection...");
         
-        // Method 2: Traditional CreateRemoteThread (fallback)
         DWORD access = PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ;
         HANDLE hProcess = OpenProcess(access, FALSE, procId);
-        if (hProcess == NULL) {
-            std::cerr << "Error: Could not open a handle to the process. Try running as administrator." << std::endl;
-            return 1;
-        }
-
-        // Allocate memory in the target process for the DLL path
-        std::wstring dllPathW = dllPath.wstring();
-        SIZE_T bytes = (dllPathW.size() + 1) * sizeof(wchar_t); // include null terminator
-        void* loc = VirtualAllocEx(hProcess, nullptr, bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-        if (loc == NULL) {
-            std::cerr << "Error: Could not allocate memory in the target process." << std::endl;
+        if (hProcess != NULL) {
+            // Allocate memory in the target process for the DLL path
+            std::wstring dllPathW = dllPath.wstring();
+            SIZE_T bytes = (dllPathW.size() + 1) * sizeof(wchar_t); // include null terminator
+            void* loc = VirtualAllocEx(hProcess, nullptr, bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+            
+            if (loc != NULL) {
+                // Write the DLL path to the allocated memory
+                if (WriteProcessMemory(hProcess, loc, dllPathW.c_str(), bytes, nullptr)) {
+                    // Create a remote thread to load the DLL
+                    HANDLE hThread = CreateRemoteThread(hProcess, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryW, loc, 0, 0);
+                    if (hThread != NULL) {
+                        // Wait for remote thread to complete
+                        DWORD waitResult = WaitForSingleObject(hThread, 10000); // 10 second timeout
+                        if (waitResult == WAIT_OBJECT_0) {
+                            // Check if LoadLibrary succeeded
+                            DWORD exitCode = 0;
+                            if (GetExitCodeThread(hThread, &exitCode) && exitCode != 0) {
+                                LOG_SUCCESS(L"Traditional injection completed successfully!");
+                                injectionSuccessful = true;
+                            } else {
+                                LOG_INFO(L"LoadLibrary failed in target process (exit code: " + std::to_wstring(exitCode) + L")");
+                            }
+                        } else {
+                            LOG_INFO(L"LoadLibrary thread timed out or failed");
+                        }
+                        CloseHandle(hThread);
+                    } else {
+                        LOG_INFO(L"Could not create remote thread for LoadLibrary");
+                    }
+                } else {
+                    LOG_INFO(L"Could not write DLL path to target process");
+                }
+                VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
+            } else {
+                LOG_INFO(L"Could not allocate memory in target process");
+            }
+            
+            // Additional stealth: Clear injection traces
+            FlushInstructionCache(hProcess, nullptr, 0);
             CloseHandle(hProcess);
-            return 1;
+        } else {
+            LOG_INFO(L"Could not open target process for traditional injection");
         }
-
-        // Write the DLL path to the allocated memory
-        if (!WriteProcessMemory(hProcess, loc, dllPathW.c_str(), bytes, nullptr)) {
-            std::cerr << "Error: Could not write to the process's memory." << std::endl;
-            VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
-            CloseHandle(hProcess);
-            return 1;
+    }
+    
+    // Method 2: Manual Mapping (Fallback for stealth if LoadLibrary fails)
+    if (!injectionSuccessful) {
+        if (forceManualMapping) {
+            LOG_INFO(L"Attempting manual mapping injection...");
+        } else {
+            LOG_INFO(L"Traditional injection failed, attempting manual mapping...");
         }
-
-        // Create a remote thread to load the DLL
-        HANDLE hThread = CreateRemoteThread(hProcess, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryW, loc, 0, 0);
-        if (hThread == NULL) {
-            std::cerr << "Error: Could not create a remote thread." << std::endl;
-            VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
-            CloseHandle(hProcess);
-            return 1;
-        }
-
-        // Wait for remote thread to complete and free remote buffer
-        WaitForSingleObject(hThread, INFINITE);
-        VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
         
-        // Additional stealth: Clear injection traces
-        FlushInstructionCache(hProcess, nullptr, 0);
-        
-        std::wcout << L"Traditional injection completed successfully!" << std::endl;
-        injectionSuccessful = true;
-
-        // Clean up
-        CloseHandle(hThread);
-        CloseHandle(hProcess);
+        if (ManualMapper::InjectDLL(procId, dllPath.wstring())) {
+            LOG_SUCCESS(L"Manual mapping injection completed successfully!");
+            injectionSuccessful = true;
+        } else {
+            LOG_INFO(L"Manual mapping also failed");
+        }
     }
     
     if (!injectionSuccessful) {
-        std::wcerr << L"All injection methods failed!" << std::endl;
+        LOG_ERROR(L"All injection methods failed!");
         return 1;
     }
 
     // Monitor target process and exit when it closes
-    std::wcout << L"Injection successful! Monitoring target process..." << std::endl;
-    std::wcout << L"The injector will close automatically when " << foundProcessName << L" exits." << std::endl;
+    LOG_SUCCESS(L"Injection successful! Monitoring target process...");
+    LOG_INFO(L"The injector will close automatically when " + foundProcessName + L" exits.");
     
     HANDLE hMonitorProcess = OpenProcess(SYNCHRONIZE, FALSE, procId);
     if (hMonitorProcess) {
         // Wait for the process to terminate
         WaitForSingleObject(hMonitorProcess, INFINITE);
         CloseHandle(hMonitorProcess);
-        std::wcout << L"Target process has exited. Closing injector." << std::endl;
+        LOG_INFO(L"Target process has exited. Closing injector.");
     } else {
-        std::wcerr << L"Could not monitor target process. Exiting automatically." << std::endl;
+        LOG_ERROR(L"Could not monitor target process. Exiting automatically.");
     }
     
     return 0;

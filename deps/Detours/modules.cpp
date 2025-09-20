@@ -1,4 +1,5 @@
 #include "../../detours_fix.h" 
+#include "../../detours_fix.h" 
 //////////////////////////////////////////////////////////////////////////////
 //
 //  Module Enumeration Functions (modules.cpp of detours.lib)
