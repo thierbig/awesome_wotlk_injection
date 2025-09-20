@@ -1,0 +1,186 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Create Detours Fix Header",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "echo #define NOWINBASEINTERLOCK > detours_fix.h && echo #include ^<intrin.h^> >> detours_fix.h && echo #pragma intrinsic(_InterlockedExchangeAdd) >> detours_fix.h && echo #pragma intrinsic(_InterlockedCompareExchange) >> detours_fix.h && echo #pragma intrinsic(_InterlockedCompareExchange64) >> detours_fix.h"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Reset Detours Modules",
+            "type": "shell",
+            "command": "git",
+            "args": [
+                "checkout",
+                "deps/Detours/modules.cpp"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "dependsOn": "Create Detours Fix Header"
+        },
+        {
+            "label": "Fix Detours Modules",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "copy deps\\Detours\\modules.cpp deps\\Detours\\modules.cpp.bak && (echo #include \"../../detours_fix.h\" && type deps\\Detours\\modules.cpp.bak) > deps\\Detours\\modules.cpp && del deps\\Detours\\modules.cpp.bak"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "dependsOn": "Reset Detours Modules"
+        },
+        {
+            "label": "Create Build Directory",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "if not exist build mkdir build"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "dependsOn": "Fix Detours Modules"
+        },
+        {
+            "label": "Configure CMake",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "..",
+                "-G",
+                "Visual Studio 17 2022",
+                "-A",
+                "Win32",
+                "-DCMAKE_CXX_FLAGS=/DNOWINBASEINTERLOCK /D_WIN32_WINNT=0x0601"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "dependsOn": "Create Build Directory"
+        },
+        {
+            "label": "Build DLL and Injector",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                ".",
+                "--config",
+                "Release",
+                "--target",
+                "AwesomeWotlkLib",
+                "AwesomeWotlkInjector",
+                "--parallel"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "dependsOn": "Configure CMake"
+        },
+        {
+            "label": "Clean Build",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "if exist build rmdir /s /q build && if exist detours_fix.h del detours_fix.h"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Full Build (Clean + Build)",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Clean Build",
+                "Build DLL and Injector"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Copy DLL to Root",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "copy build\\Release\\AwesomeWotlkLib.dll . /Y && copy build\\Release\\AwesomeWotlkInjector.exe . /Y"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "dependsOn": "Build DLL and Injector"
+        }
+    ]
+}

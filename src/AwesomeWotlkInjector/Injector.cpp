@@ -140,7 +140,6 @@ int wmain(int argc, wchar_t* argv[]) {
     DWORD len = GetModuleFileNameW(nullptr, modulePath, MAX_PATH);
     if (len == 0 || len >= MAX_PATH) {
         std::wcerr << L"Error: Failed to get injector module path." << std::endl;
-        system("pause");
         return 1;
     }
     std::filesystem::path dllPath = std::filesystem::path(modulePath).parent_path() / dllName;
@@ -148,7 +147,6 @@ int wmain(int argc, wchar_t* argv[]) {
     if (!std::filesystem::exists(dllPath)) {
         std::wcerr << L"Error: '" << dllName << L"' not found next to the injector executable." << std::endl;
         std::wcerr << L"Please place the injector and the DLL in the same directory." << std::endl;
-        system("pause");
         return 1;
     }
 
@@ -177,7 +175,6 @@ int wmain(int argc, wchar_t* argv[]) {
         } else {
             std::wcerr << L"Error: Neither 'Project Epoch.exe' nor 'ascension.exe' found." << std::endl;
         }
-        system("pause");
         return 1;
     }
 
@@ -195,9 +192,7 @@ int wmain(int argc, wchar_t* argv[]) {
         CloseHandle(hTempProcess);
     }
     
-    std::wcout << L"Ready to inject. Make sure you're in the game world before proceeding." << std::endl;
-    std::wcout << L"Press any key when ready..." << std::endl;
-    system("pause");
+    std::wcout << L"Starting injection..." << std::endl;
 
     // Try advanced injection methods first for better stealth
     bool injectionSuccessful = false;
@@ -215,7 +210,6 @@ int wmain(int argc, wchar_t* argv[]) {
         HANDLE hProcess = OpenProcess(access, FALSE, procId);
         if (hProcess == NULL) {
             std::cerr << "Error: Could not open a handle to the process. Try running as administrator." << std::endl;
-            system("pause");
             return 1;
         }
 
@@ -226,7 +220,6 @@ int wmain(int argc, wchar_t* argv[]) {
         if (loc == NULL) {
             std::cerr << "Error: Could not allocate memory in the target process." << std::endl;
             CloseHandle(hProcess);
-            system("pause");
             return 1;
         }
 
@@ -235,7 +228,6 @@ int wmain(int argc, wchar_t* argv[]) {
             std::cerr << "Error: Could not write to the process's memory." << std::endl;
             VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
             CloseHandle(hProcess);
-            system("pause");
             return 1;
         }
 
@@ -245,7 +237,6 @@ int wmain(int argc, wchar_t* argv[]) {
             std::cerr << "Error: Could not create a remote thread." << std::endl;
             VirtualFreeEx(hProcess, loc, 0, MEM_RELEASE);
             CloseHandle(hProcess);
-            system("pause");
             return 1;
         }
 
@@ -266,10 +257,22 @@ int wmain(int argc, wchar_t* argv[]) {
     
     if (!injectionSuccessful) {
         std::wcerr << L"All injection methods failed!" << std::endl;
-        system("pause");
         return 1;
     }
 
-    system("pause");
+    // Monitor target process and exit when it closes
+    std::wcout << L"Injection successful! Monitoring target process..." << std::endl;
+    std::wcout << L"The injector will close automatically when " << foundProcessName << L" exits." << std::endl;
+    
+    HANDLE hMonitorProcess = OpenProcess(SYNCHRONIZE, FALSE, procId);
+    if (hMonitorProcess) {
+        // Wait for the process to terminate
+        WaitForSingleObject(hMonitorProcess, INFINITE);
+        CloseHandle(hMonitorProcess);
+        std::wcout << L"Target process has exited. Closing injector." << std::endl;
+    } else {
+        std::wcerr << L"Could not monitor target process. Exiting automatically." << std::endl;
+    }
+    
     return 0;
 }

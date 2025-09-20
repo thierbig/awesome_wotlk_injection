@@ -41,11 +41,10 @@ function ACVar:GetCVarValue(cvarName)
 end
 
 function ACVar:SetCVarValue(cvarName, value, cvarDef)
-    if self:GetCVarValue(cvarName) then
-        SetCVar(cvarName, value)
-        if cvarDef and cvarDef.reloadRequired then
-            self.reloadIsPending = true
-        end
+    -- Remove CVar existence check - injection-based approach registers CVars at runtime
+    SetCVar(cvarName, value)
+    if cvarDef and cvarDef.reloadRequired then
+        self.reloadIsPending = true
     end
 end
 

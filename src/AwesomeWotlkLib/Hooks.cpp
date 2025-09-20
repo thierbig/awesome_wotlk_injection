@@ -1,4 +1,5 @@
 #include "Hooks.h"
+#include "EvasionLogger.h"
 #include <Windows.h>
 #include <Detours/detours.h>
 #include <string>
@@ -98,10 +99,85 @@ static void(*CVars_Initialize_orig)() = (decltype(CVars_Initialize_orig))0x0051D
 static void CVars_Initialize_hk()
 {
     CVars_Initialize_orig();
+    int total = 0, created = 0, existed = 0;
     for (const auto& [dst, name, desc, flags, initialValue, func] : s_customCVars) {
-        Console::CVar* cvar = Console::RegisterCVar(name, desc, flags, initialValue, func, 0, 0, 0, 0);
+        ++total;
+        // Avoid double-registration if some CVars were pre-registered earlier
+        Console::CVar* cvar = Console::FindCVar(name);
+        if (!cvar) {
+            cvar = Console::RegisterCVar(name, desc, flags, initialValue, func, 0, 0, 0, 0);
+            ++created;
+        } else {
+            ++existed;
+        }
         if (dst) *dst = cvar;
     }
+    EVASION_LOG_SUCCESS("CVARS", std::string("CVars_Initialize_hk: processed=") + std::to_string(total) +
+        ", created=" + std::to_string(created) + ", existed=" + std::to_string(existed));
+}
+
+// Failsafe: If our detour was attached after the game already called CVars_Initialize,
+// the queued CVars in s_customCVars won't exist yet. This ensures they are present.
+void Hooks::ensureCustomCVarsRegistered()
+{
+    bool preCameraFov = (Console::FindCVar("cameraFov") != nullptr);
+    int ensuredTotal = 0, ensuredCreated = 0, ensuredUpgraded = 0, ensuredExisted = 0;
+    for (const auto& [dst, name, desc, flags, initialValue, func] : s_customCVars) {
+        ++ensuredTotal;
+        Console::CVar* cvar = Console::FindCVar(name);
+        if (!cvar) {
+            cvar = Console::RegisterCVar(name, desc, flags, initialValue, func, 0, 0, 0, 0);
+            ++ensuredCreated;
+        } else {
+            ++ensuredExisted;
+            // If already present but without the correct handler, upgrade it now
+            if (func && cvar->handler != func) {
+                cvar->handler = func;
+                ++ensuredUpgraded;
+            }
+        }
+        if (dst) *dst = cvar;
+    }
+
+    // Pre-register essential CVars if still missing (so addons can see/set them immediately)
+    // Use a permissive no-op handler; module-specific handlers will attach later.
+    auto noOp = [](Console::CVar*, const char*, const char*, void*) -> int { return 1; };
+
+    const struct { const char* name; const char* defVal; } essentials[] = {
+        { "cameraFov", "100" },
+        { "showPlayer", "1" },
+        { "interactionAngle", "60" },
+        { "interactionMode", "1" }
+    };
+
+    for (const auto& e : essentials) {
+        if (!Console::FindCVar(e.name)) {
+            Console::RegisterCVar(e.name, nullptr, (Console::CVarFlags)1, e.defVal, noOp, 0, 0, 0, 0);
+        }
+    }
+
+    bool postCameraFov = (Console::FindCVar("cameraFov") != nullptr);
+    if (postCameraFov) {
+        EVASION_LOG_SUCCESS("CVARS", std::string("ensureCustomCVarsRegistered: cameraFov present after ensure (pre=") + (preCameraFov ? "true" : "false") + ", post=true)");
+    } else {
+        EVASION_LOG_ERROR("CVARS", std::string("ensureCustomCVarsRegistered: cameraFov missing after ensure (pre=") + (preCameraFov ? "true" : "false") + ", post=false)");
+    }
+
+    EVASION_LOG_SUCCESS("CVARS", std::string("ensureCustomCVarsRegistered: total=") + std::to_string(ensuredTotal) +
+        ", created=" + std::to_string(ensuredCreated) + ", upgraded=" + std::to_string(ensuredUpgraded) + ", existed=" + std::to_string(ensuredExisted));
+
+    auto logCVarVal = [](const char* name) {
+        if (auto* c = Console::FindCVar(name)) {
+            EVASION_LOG_SUCCESS("CVARS", std::string("CVar ") + name + "=" + (c->vStr ? c->vStr : "<null>"));
+        } else {
+            EVASION_LOG_ERROR("CVARS", std::string("CVar ") + name + " not found");
+        }
+    };
+    logCVarVal("cameraFov");
+    logCVarVal("cameraIndirectVisibility");
+    logCVarVal("cameraIndirectAlpha");
+    // Might be available already if NamePlates registered before this ensure
+    logCVarVal("nameplateDistance");
 }
 
 
@@ -115,6 +191,12 @@ static void FrameScript_FillEvents_hk(const char** list, size_t count)
     events.reserve(count + s_customEvents.size());
     events.insert(events.end(), &list[0], &list[count]);
     events.insert(events.end(), s_customEvents.begin(), s_customEvents.end());
+    static bool s_loggedOnce = false;
+    if (!s_loggedOnce) {
+        EVASION_LOG_SUCCESS("FRAMEXML", std::string("FrameScript_FillEvents_hk: base=") + std::to_string(count) +
+            ", added=" + std::to_string(s_customEvents.size()) + ", total=" + std::to_string(events.size()));
+        s_loggedOnce = true;
+    }
     FrameScript_FillEvents_orig(events.data(), events.size());
 }
 
@@ -134,6 +216,10 @@ static void Lua_OpenFrameXMLApi_hk()
 {
     Lua_OpenFrameXMLApi_orig();
     Lua_OpenFrameXMlApi_bulk();
+    // Ensure CVars when FrameXML API is ready (CVar system should be initialized by now)
+    EVASION_LOG_SUCCESS("CVARS", "Lua_OpenFrameXMLApi_hk: Ensuring custom CVars are registered");
+    Hooks::ensureCustomCVarsRegistered();
+    EVASION_LOG_SUCCESS("FRAMEXML", std::string("Lua_OpenFrameXMLApi_hk: custom libs=") + std::to_string(s_customLuaLibs.size()));
 }
 
 struct CustomTokenDetails {
@@ -241,6 +327,7 @@ static void(__fastcall* CGGameUI__EnterWorld)() = (decltype(CGGameUI__EnterWorld
 static void __fastcall OnEnterWorld()
 {
     g_inWorld.store(true, std::memory_order_relaxed);
+    EVASION_LOG_SUCCESS("WORLD", "OnEnterWorld: world flag set, firing custom onEnter callbacks");
     for (auto func : s_customOnEnter)
         func();
     return CGGameUI__EnterWorld();
@@ -250,6 +337,7 @@ static void(__fastcall* CGGameUI__LeaveWorld)() = (decltype(CGGameUI__LeaveWorld
 static void __fastcall OnLeaveWorld()
 {
     g_inWorld.store(false, std::memory_order_relaxed);
+    EVASION_LOG_SUCCESS("WORLD", "OnLeaveWorld: world flag cleared, firing custom onLeave callbacks");
     for (auto func : s_customOnLeave)
         func();
     return CGGameUI__LeaveWorld();
@@ -666,6 +754,7 @@ static void __declspec(naked) CGame_Destroy_hk()
 
 void Hooks::initialize()
 {
+    EVASION_LOG_SUCCESS("HOOKS", "Hooks::initialize: starting detour attachments");
     Hooks::FrameXML::registerCVar(&s_cvar_cameraIndirectAlpha, "cameraIndirectAlpha", NULL, (Console::CVarFlags)1, "0.6", CVarHandler_cameraIndirectAlpha);
     Hooks::FrameXML::registerCVar(&s_cvar_cameraIndirectVisibility, "cameraIndirectVisibility", NULL, (Console::CVarFlags)1, "0", CVarHandler_cameraIndirectVisibility);
     DetourAttach(&(LPVOID&)InvalidFunctionPointerCheck_orig, InvalidFunctionPointerCheck_hk);
@@ -686,4 +775,5 @@ void Hooks::initialize()
     DetourAttach(&(LPVOID&)IntersectCall_orig, IntersectCall_hk);
     DetourAttach(&(LPVOID&)SpellCastReset_orig, SpellCastReset_hk);
     DetourAttach(&(LPVOID&)CGame_Destroy_orig, CGame_Destroy_hk);
+    EVASION_LOG_SUCCESS("HOOKS", "Hooks::initialize: detour attachments queued");
 }

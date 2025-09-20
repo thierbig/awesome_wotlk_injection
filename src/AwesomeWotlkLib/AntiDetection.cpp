@@ -3,6 +3,7 @@
 #include <thread>
 #include <chrono>
 #include <cmath>
+#include <intrin.h>  // For __cpuid intrinsic
 
 #pragma comment(lib, "Psapi.lib")
 

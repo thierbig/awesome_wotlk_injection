@@ -33,5 +33,6 @@ void registerCharEnum(DummyCallback_t func);
 
 bool IsInWorld();
 void initialize();
+void ensureCustomCVarsRegistered();
 
 }

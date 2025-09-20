@@ -34,6 +34,22 @@ static int lua_openawesomewotlk(lua_State* L)
 {
     lua_pushnumber(L, 1.f);
     lua_setglobal(L, "AwesomeWotlk");
+    
+    // Enable WeakAuras awesome features by providing C_NamePlate API
+    // This makes WeakAuras.IsAwesomeEnabled() return 1 (nameplate support)
+    lua_newtable(L);  // Create C_NamePlate table
+    
+    // Add a dummy GetNamePlateForUnit function - WeakAuras just checks for existence
+    lua_pushcfunction(L, [](lua_State* L) -> int {
+        // Simple dummy implementation - just return nil for now
+        // WeakAuras only checks if this function exists to enable nameplate features
+        lua_pushnil(L);
+        return 1;
+    });
+    lua_setfield(L, -2, "GetNamePlateForUnit");
+    
+    lua_setglobal(L, "C_NamePlate");  // Set as global C_NamePlate
+    
 #ifdef _DEBUG
     lua_pushcfunction(L, lua_debugbreak);
     lua_setglobal(L, "debugbreak");
@@ -206,46 +222,83 @@ static void InstallAntiCheatEvasion() {
 
 // Anti-debugging and stealth measures
 static bool IsEnvironmentSafe() {
-    // Enhanced anti-debugging checks using AntiDetection module
-    if (IsDebuggerPresent()) {
-        return false;
-    }
-    
-    // Check for VM/Sandbox
-    if (AntiDetection::EnvironmentChecker::IsRunningInVM() ||
-        AntiDetection::EnvironmentChecker::IsRunningInSandbox()) {
-        // In VM or sandbox - be extra careful
-        AntiDetection::MemoryScrambler::ScrambleUnusedMemory();
-        AntiDetection::MemoryScrambler::RandomizeStackPatterns();
-    }
-    
-    // Check hardware
-    if (AntiDetection::EnvironmentChecker::HasSuspiciousHardware()) {
-        // Suspicious hardware detected
-        AntiDetection::TimingObfuscator::AddRandomDelays();
-    }
-    
-    // Check if ClientExtensions.dll is loaded (anti-cheat system)
-    HMODULE clientExt = GetModuleHandleA("ClientExtensions.dll");
-    if (clientExt != nullptr) {
-        // Install enhanced anti-cheat evasion hooks
-        InstallAntiCheatEvasion();
+    __try {
+        EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Starting function");
         
-        // Additional evasion for anti-cheat
-        AntiDetection::MemoryScrambler::EraseInjectionTraces();
-        AntiDetection::CodeMutator::InsertDeadCode();
+        // Enhanced anti-debugging checks using AntiDetection module
+        EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to check IsDebuggerPresent");
+        if (IsDebuggerPresent()) {
+            EVASION_LOG_WARNING("ENV_SAFE", "IsEnvironmentSafe: Debugger detected, returning false");
+            return false;
+        }
+        EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: IsDebuggerPresent check passed");
+        
+        // Check for VM/Sandbox
+        //EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to check VM/Sandbox");
+        if (AntiDetection::EnvironmentChecker::IsRunningInVM() ||
+            AntiDetection::EnvironmentChecker::IsRunningInSandbox()) {
+            //EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: VM/Sandbox detected, applying extra measures");
+            // In VM or sandbox - be extra careful
+            //EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to scramble unused memory");
+            //AntiDetection::MemoryScrambler::ScrambleUnusedMemory();
+            //EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to randomize stack patterns");
+            //AntiDetection::MemoryScrambler::RandomizeStackPatterns();
+            //EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: VM/Sandbox measures completed");
+        } else {
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: VM/Sandbox check passed");
+        }
+        
+        // Check hardware
+        EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to check suspicious hardware");
+        if (AntiDetection::EnvironmentChecker::HasSuspiciousHardware()) {
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Suspicious hardware detected, adding delays");
+            // Suspicious hardware detected
+            AntiDetection::TimingObfuscator::AddRandomDelays();
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Random delays added");
+        } else {
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Hardware check passed");
+        }
+        
+        // Check if ClientExtensions.dll is loaded (anti-cheat system)
+        EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to check ClientExtensions.dll");
+        HMODULE clientExt = GetModuleHandleA("ClientExtensions.dll");
+        if (clientExt != nullptr) {
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: ClientExtensions.dll detected, installing evasion");
+            // Install enhanced anti-cheat evasion hooks
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to install anti-cheat evasion");
+            InstallAntiCheatEvasion();
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Anti-cheat evasion installed");
+            
+            // Additional evasion for anti-cheat
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to erase injection traces");
+            AntiDetection::MemoryScrambler::EraseInjectionTraces();
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to insert dead code");
+            AntiDetection::CodeMutator::InsertDeadCode();
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Anti-cheat measures completed");
+        } else {
+            EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: ClientExtensions.dll not found");
+        }
+        
+        // Check for common analysis tools in memory
+        EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to check analysis tools");
+        HMODULE modules[] = {
+            GetModuleHandleA("dbghelp.dll"),
+            GetModuleHandleA("ntdll.dll")
+        };
+        EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Analysis tools check completed");
+        
+        // Scramble memory patterns
+        //EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: About to scramble memory patterns");
+        //AntiDetection::MemoryScrambler::ScrambleUnusedMemory();
+        //EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Memory patterns scrambled");
+        
+        //EVASION_LOG_SUCCESS("ENV_SAFE", "IsEnvironmentSafe: Function completed successfully, returning true");
+        return true;
     }
-    
-    // Check for common analysis tools in memory
-    HMODULE modules[] = {
-        GetModuleHandleA("dbghelp.dll"),
-        GetModuleHandleA("ntdll.dll")
-    };
-    
-    // Scramble memory patterns
-    AntiDetection::MemoryScrambler::ScrambleUnusedMemory();
-    
-    return true;
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+        EVASION_LOG_ERROR("ENV_SAFE", "IsEnvironmentSafe: CRITICAL EXCEPTION CAUGHT!");
+        return false; // Fail safe - assume environment is not safe if we crash
+    }
 }
 
 // Hide our threads from thread enumeration
@@ -287,6 +340,10 @@ static void DelayedInitialization() {
         InstallAdvancedEvasion();
         EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: InstallAdvancedEvasion completed");
         
+        // Ensure CVars are present before heavy initialization, in case we missed CVars_Initialize
+        EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: Ensuring custom CVars are registered (pre-OnRealAttach)");
+        Hooks::ensureCustomCVarsRegistered();
+
         // Since user presses key when ready and in-world, initialize immediately
         EVASION_LOG_SUCCESS("DELAYED", "DelayedInitialization: About to call OnRealAttach");
         OnRealAttach();
@@ -327,7 +384,9 @@ static void OnRealAttach()
 
         // Initialize modules
         EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Starting module initialization");
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: DetourTransactionBegin");
         DetourTransactionBegin();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: DetourUpdateThread(GetCurrentThread())");
         DetourUpdateThread(GetCurrentThread());
         
         EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize Hooks");
@@ -350,13 +409,8 @@ static void OnRealAttach()
         Item::initialize();
         EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Item initialized");
         
-        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize NamePlates");
-        NamePlates::initialize();
-        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: NamePlates initialized");
-        
-        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize Misc");
-        Misc::initialize();
-        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Misc initialized");
+        // NamePlates and Misc were initialized early in OnAttach to ensure CVars and handlers are queued before UI init
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Skipping NamePlates/Misc (already initialized in OnAttach)");
         
         EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to initialize UnitAPI");
         UnitAPI::initialize();
@@ -370,9 +424,20 @@ static void OnRealAttach()
         VoiceChat::initialize();
         EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: VoiceChat initialized");
         
+        // Ensure all queued custom CVars are registered even if CVars_Initialize ran before our detour
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Ensuring custom CVars are registered");
+        Hooks::ensureCustomCVarsRegistered();
+        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Custom CVars ensured");
+
         EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to commit Detour transaction");
-        DetourTransactionCommit();
-        EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Detour transaction committed");
+        {
+            LONG detErr = DetourTransactionCommit();
+            if (detErr == NO_ERROR) {
+                EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: Detour transaction committed (status=0)");
+            } else {
+                EVASION_LOG_ERROR("REAL_ATTACH", std::string("OnRealAttach: Detour transaction commit failed (status=") + std::to_string(detErr) + ")");
+            }
+        }
 
         // Register base
         EVASION_LOG_SUCCESS("REAL_ATTACH", "OnRealAttach: About to register Lua library");
@@ -394,10 +459,33 @@ static void OnRealAttach()
 static void OnAttach()
 {
     // Set up basic hooks only - no world detection needed
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: DetourTransactionBegin");
     DetourTransactionBegin();
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: DetourUpdateThread(GetCurrentThread())");
     DetourUpdateThread(GetCurrentThread());
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: Initializing Hooks");
     Hooks::initialize(); // Basic hook setup
-    DetourTransactionCommit();
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: Hooks initialized");
+    // Initialize modules that only register CVars/handlers and one small detour, safe pre-world
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: Initializing NamePlates");
+    NamePlates::initialize();
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: NamePlates initialized");
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: Initializing Misc");
+    Misc::initialize();
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: Misc initialized");
+    {
+        LONG detErr = DetourTransactionCommit();
+        if (detErr == NO_ERROR) {
+            EVASION_LOG_SUCCESS("ATTACH", "OnAttach: Detour transaction committed (status=0)");
+        } else {
+            EVASION_LOG_ERROR("ATTACH", std::string("OnAttach: Detour transaction commit failed (status=") + std::to_string(detErr) + ")");
+        }
+    }
+
+    // Ensure CVars right after basic hooks are in place
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: Ensuring custom CVars are registered (early)");
+    Hooks::ensureCustomCVarsRegistered();
+    EVASION_LOG_SUCCESS("ATTACH", "OnAttach: Early CVars ensure completed");
 }
 
 static DWORD WINAPI AttachThread(LPVOID) {

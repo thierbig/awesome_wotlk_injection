@@ -112,9 +112,9 @@ int getTokenId(guid_t guid)
 
 static int CVarHandler_NameplateDistance(Console::CVar*, const char*, const char* value, LPVOID)
 {
-    double f = atof(value);
-    f = f > 0.f ? f : 41.f;
-    *(float*)0x00ADAA7C = (float)(f * f);
+    //double f = atof(value);
+    //f = f > 0.f ? f : 41.f;
+    //*(float*)0x00ADAA7C = (float)(f * f);
     return 1;
 }
 std::chrono::steady_clock::time_point gLastCallTime = std::chrono::steady_clock::now();

@@ -1,0 +1,12 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/thier/awesome_woltk_injection/build/cmake_install.cmake",
+		"C:/Users/thier/awesome_woltk_injection/build/deps/cmake_install.cmake",
+		"C:/Users/thier/awesome_woltk_injection/build/deps/Detours/cmake_install.cmake",
+		"C:/Users/thier/awesome_woltk_injection/build/src/cmake_install.cmake",
+		"C:/Users/thier/awesome_woltk_injection/build/src/AwesomeWotlkLib/cmake_install.cmake",
+		"C:/Users/thier/awesome_woltk_injection/build/src/AwesomeWotlkInjector/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
